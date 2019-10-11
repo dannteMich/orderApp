@@ -1,13 +1,16 @@
 import React from 'react';
+import {Table, TableBody} from '@material-ui/core';
+
 import {Order} from '../../defs';
-import {Table, TableBody, TableRow, TableCell} from '@material-ui/core';
+import OrderRow from './OrderRow';
+
 
 interface OrderListProps {
     orders: Order[];
 }
 
 const OrderList: React.FC<OrderListProps> = ({orders}) => {
-    const ordersElements = orders.map(order => <OrderRow order={order} />)
+    const ordersElements = orders.map((order, i) => <OrderRow order={order} key={i}/>)
     return (
         <Table>
             <TableBody>
@@ -19,21 +22,3 @@ const OrderList: React.FC<OrderListProps> = ({orders}) => {
 }
 
 export default OrderList
-
-
-interface OrderRowProps {
-    order: Order
-}
-
-const OrderRow: React.FC<OrderRowProps> = ({order}) => {
-    return (
-        <TableRow>
-            <TableCell>
-                {order.product.name}
-            </TableCell>
-            <TableCell>
-                {order.amount}
-            </TableCell>
-        </TableRow>
-    )
-}
