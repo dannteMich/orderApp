@@ -1,11 +1,20 @@
 import React from 'react';
-import OrderList from './components/OrderList';
+import {Container} from '@material-ui/core';
+import {Product, Measurement} from './defs'
+
+const mockOrders: Product[] = [
+  {
+    name: "Apples",
+    measurement: Measurement.KG,
+  }
+]
 
 const App: React.FC = () => {
+  
   return (
-    <div>
-      <OrderList />
-    </div>
+    <Container>
+      "hello world"
+    </Container>
   );
 }
 
