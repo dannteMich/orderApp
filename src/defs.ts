@@ -7,10 +7,13 @@ export enum Measurement {
 
 export interface Product {
     name: string;
-    measurement?: Measurement; // TODO: later this should be obligatory
+    measurement: Measurement;
 }
 
-export interface Order { // TODO: this should be a mapping and product should be "hushable"
+
+export interface Order {
     product: Product;
     amount: number;
 }
+
+export type EditableOrder = Partial<Order>;

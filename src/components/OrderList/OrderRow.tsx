@@ -1,36 +1,56 @@
 import React from 'react';
+import _ from 'lodash';
+
 import {TableRow, TableCell} from '@material-ui/core';
-import {FormControl, Input} from '@material-ui/core';
+import {Input, Select, MenuItem} from '@material-ui/core';
 
-import { Order } from '../../defs';
+import {AvailableProductsContext} from '../../context'
+import { EditableOrder } from '../../defs';
 
-interface OrderRowProps {
-    order: Order
-}
-
-// TODO: this is used for understanding
 function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     console.log(event.target.value);
 }
 
-const OrderRow: React.FC<OrderRowProps> = ({ order }) => {
+interface OrderRowProps {
+    order: EditableOrder;
+    onOrderChange: (newOrder: EditableOrder) => void;
+}
+
+// TODO: the select should be autocomplete
+const OrderRow: React.FC<OrderRowProps> = ({ order, onOrderChange }) => {
+    const products = React.useContext(AvailableProductsContext);
+
+    const handleProductNameChange = (newName: string) => {
+        const newProduct = _.find(products, product => product.name == newName);
+        console.log(newProduct);
+        onOrderChange({
+            product: newProduct,
+            amount: 0,
+        })
+    }
+
     return (
         <TableRow>
             <TableCell>
-                <FormControl required>
-                    <Input
-                        onChange={handleChange}
-                        placeholder="Product Name"
-                        value={order.product.name}
-                    />
-                    
-                </FormControl>
+                <Select 
+                    placeholder="Product Name" 
+                    value={order.product ? order.product.name : ""} 
+                    onChange={e => handleProductNameChange(e.target.value as string)}
+                >
+                    {
+                        products.map( // TODO: should optimize this
+                            (product, i) => <MenuItem key={i} value={product.name}>
+                                {product.name}
+                            </MenuItem>)
+                    }
+                </Select>
             </TableCell>
             <TableCell>
                 <Input
                     placeholder="Amount"
                     onChange={handleChange}
                     value={order.amount}
+                    endAdornment={order.product ? order.product.measurement : ""}
                     inputProps={{
                         type: "number",
                         min: 0,

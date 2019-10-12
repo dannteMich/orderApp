@@ -1,23 +1,43 @@
 import React from 'react';
-import {Table, TableBody} from '@material-ui/core';
-
-import {Order} from '../../defs';
+import {Table, TableBody, TableHead, TableRow, TableCell} from '@material-ui/core';
+import {EditableOrder} from '../../defs';
 import OrderRow from './OrderRow';
+import {mockProducts} from '../../mockData' // TODO: later this should be fetched
+import {AvailableProductsContext} from '../../context';
 
+const OrderList: React.FC = () => {
+    const [orders, setOrders] = React.useState([{}] as EditableOrder[])
 
-interface OrderListProps {
-    orders: Order[];
-}
+    const updateOrderAtIndex = (order: EditableOrder, index: number) => {
+        const newOrders = orders.slice(0)
+        newOrders[index] = order;
+        setOrders(newOrders);
+    }
 
-const OrderList: React.FC<OrderListProps> = ({orders}) => {
-    const ordersElements = orders.map((order, i) => <OrderRow order={order} key={i}/>)
+    const ordersElements = orders.map(
+        (order, i) => (
+            <OrderRow order={order}  key={i} 
+                onOrderChange={(order: EditableOrder) => updateOrderAtIndex(order, i)}
+            />
+    ))
     return (
-        <Table>
-            <TableBody>
-
-                {ordersElements}
-            </TableBody>
-        </Table>
+        <AvailableProductsContext.Provider value={mockProducts}>
+            <Table>
+                <TableHead>
+                    <TableRow>
+                        <TableCell>
+                            Product
+                        </TableCell>
+                        <TableCell>
+                            Amount
+                        </TableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {ordersElements}
+                </TableBody>
+            </Table>
+        </AvailableProductsContext.Provider>
     )
 }
 
