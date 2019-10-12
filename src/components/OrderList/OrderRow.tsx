@@ -22,10 +22,16 @@ const OrderRow: React.FC<OrderRowProps> = ({ order, onOrderChange }) => {
 
     const handleProductNameChange = (newName: string) => {
         const newProduct = _.find(products, product => product.name == newName);
-        console.log(newProduct);
         onOrderChange({
             product: newProduct,
-            amount: 0,
+            amount: order.amount || 0,
+        })
+    }
+
+    const handleProductAmountChange = (newAmount: number) => {
+        onOrderChange({
+            ...order,
+            amount: newAmount,
         })
     }
 
@@ -48,7 +54,7 @@ const OrderRow: React.FC<OrderRowProps> = ({ order, onOrderChange }) => {
             <TableCell>
                 <Input
                     placeholder="Amount"
-                    onChange={handleChange}
+                    onChange={e => handleProductAmountChange(parseInt(e.target.value))}
                     value={order.amount}
                     endAdornment={order.product ? order.product.measurement : ""}
                     inputProps={{
