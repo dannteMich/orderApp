@@ -12,5 +12,17 @@ export const mockProducts: Product[] = [
     {
         name: "Milk",
         measurement: Measurement.UNITS,
-    }
+    },
+    {
+        name: "Salmon Fish",
+        measurement: Measurement.KG,
+    },
+    {
+        name: "Soy souce",
+        measurement: Measurement.PACKS,
+    },
+    {
+        name: "Mushrooms",
+        measurement: Measurement.PACKS,
+    },
 ]
