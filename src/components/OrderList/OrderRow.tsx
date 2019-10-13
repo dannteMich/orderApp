@@ -5,7 +5,7 @@ import {TableRow, TableCell} from '@material-ui/core';
 import { Input, Select, MenuItem, IconButton} from '@material-ui/core';
 import {HighlightOff} from '@material-ui/icons';
 
-import {AvailableProductsContext} from '../../context'
+import { AvailableProductsContext} from '../../context'
 import { EditableOrder } from '../../defs';
 
 interface OrderRowProps {
