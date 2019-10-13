@@ -2,26 +2,24 @@ import React from 'react';
 import _ from 'lodash';
 
 import {TableRow, TableCell} from '@material-ui/core';
-import {Input, Select, MenuItem} from '@material-ui/core';
+import { Input, Select, MenuItem, IconButton} from '@material-ui/core';
+import {HighlightOff} from '@material-ui/icons';
 
 import {AvailableProductsContext} from '../../context'
 import { EditableOrder } from '../../defs';
 
-function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-    console.log(event.target.value);
-}
-
 interface OrderRowProps {
     order: EditableOrder;
     onOrderChange: (newOrder: EditableOrder) => void;
+    onOrderDelete: () => void;
 }
 
 // TODO: the select should be autocomplete
-const OrderRow: React.FC<OrderRowProps> = ({ order, onOrderChange }) => {
+const OrderRow: React.FC<OrderRowProps> = ({ order, onOrderChange, onOrderDelete }) => {
     const products = React.useContext(AvailableProductsContext);
 
     const handleProductNameChange = (newName: string) => {
-        const newProduct = _.find(products, product => product.name == newName);
+        const newProduct = _.find(products, product => product.name === newName);
         onOrderChange({
             product: newProduct,
             amount: order.amount || 0,
@@ -64,6 +62,11 @@ const OrderRow: React.FC<OrderRowProps> = ({ order, onOrderChange }) => {
                     }}
                 />
                 
+            </TableCell>
+            <TableCell>
+                <IconButton onClick={onOrderDelete}>
+                    <HighlightOff/>
+                </IconButton>
             </TableCell>
         </TableRow>
     )
