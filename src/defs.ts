@@ -8,6 +8,7 @@ export enum Measurement {
 export interface Product {
     name: string;
     measurement: Measurement;
+    seller?: Seller; // TODO: this should not be optional
 }
 
 
@@ -17,3 +18,7 @@ export interface Order {
 }
 
 export type EditableOrder = Partial<Order>;
+
+export interface Seller {
+    name: string;
+}
