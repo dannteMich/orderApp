@@ -1,2 +1,13 @@
 lock the firestore database
 Make the app direction: RTL
+Think about seciurity: do we have to have server side?
+
+
+
+for starters: firebase hirarchy looks like this:
+
+    
+        sellers collection
+            seller document
+                products collection
+                    product document
