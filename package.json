@@ -10,6 +10,7 @@
     "@types/node": "12.7.11",
     "@types/react": "16.9.5",
     "@types/react-dom": "16.9.1",
+    "firebase": "^7.2.2",
     "lodash": "^4.17.15",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
@@ -20,6 +21,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "deploy": "firebase deploy",
+    "build_and_deploy": "react-scripts build & firebase deploy",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
