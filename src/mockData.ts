@@ -1,5 +1,4 @@
-import {Measurement,Product, Seller} from './defs';
-import * as firebase from 'firebase';
+import {Measurement,Product, Seller, Account} from './defs';
 
 export const mockProducts: Product[] = [
     {
@@ -65,17 +64,12 @@ export const seller2: Seller = {
     products: mockProducts2,
 }
 
-export const loadMockToFirestore = () => {
-    const sellers = [seller1, seller2];
-    const db = firebase.firestore();
-    
-    sellers.forEach(seller => {
-        const {products, ...sellerInfo} = seller;
-        db.collection('sellers').add(sellerInfo).then(sellerDocRef => {
-            seller.products && seller.products.forEach(product => {
-                sellerDocRef.collection('products').add(product)
-            })
-        })
-    })
-}
 
+export const DEV_ACCOUNT_NAME = 'dev_account'
+
+export const account1: Account = {
+    name: DEV_ACCOUNT_NAME,
+    manager: "michael",
+    members: ["amit"],
+    sellers: [],
+}

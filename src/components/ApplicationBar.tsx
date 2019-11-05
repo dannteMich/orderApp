@@ -1,12 +1,16 @@
 import React from 'react';
 import {AppBar, Toolbar, Typography} from '@material-ui/core';
 
-const ApplicationBar: React.FC = () => {
+interface Props {
+    caption: string
+}
+
+const ApplicationBar: React.FC<Props> = ({caption}) => {
     return (
         <AppBar position="static">
             <Toolbar variant="dense">
                 <Typography variant="h6">
-                    Application bar
+                    {caption}
                 </Typography>
             </Toolbar>
         </AppBar>

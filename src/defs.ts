@@ -11,17 +11,25 @@ export interface Product {
 }
 
 
-export interface Order {
-    product: Product;
-    amount: number;
-}
-
-export type EditableOrder = Partial<Order>;
-
 
 export interface Seller {
     name: string;
     mobile?: string;
     email?: string;
-    products?: Product[];
+    products: Product[];
 }
+
+export interface Account {
+    name: string;
+    manager: string;    // IMPR: this will a user later 
+    members: string[];  // IMPR: this will an array of users later 
+    sellers: Seller[];
+}
+
+
+
+export interface Order {
+    product: Product;
+    amount: number;
+}
+export type EditableOrder = Partial<Order>;
