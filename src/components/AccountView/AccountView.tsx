@@ -2,9 +2,9 @@ import React, {useState} from 'react';
 
 import {CircularProgress, Typography, Button} from '@material-ui/core'
 
-import {fetchAccount, addSellerToAccount} from '../../db_interface/requests';
+import {fetchAccount} from '../../db_interface/requests';
 import {Account} from '../../defs';
-import { seller1 as mockSeller } from '../../mockData';
+import SellersList from './SellersList';
 
 interface Props {
     accountId: string;
@@ -26,11 +26,12 @@ const AccountView: React.FC<Props> = ({accountId}) => {
 
     return <div>
         <AccountBasicData {...account} />
-        <Button onClick={() => addSellerToAccount(accountId, mockSeller)}>add seller</Button>
+        <Button onClick={() => alert("should do here something")}>add seller</Button>
+        <SellersList sellers={account.sellers}/>
     </div>
 }
 
-type AccountBasicDataProps = Pick<Account, 'name' | 'manager' | 'members'>;
+type AccountBasicDataProps = Omit<Account, 'sellers'>;
 
 const AccountBasicData: React.FC<AccountBasicDataProps> = ({name, manager, members}) => {
     const members_string = members.join(', ') + '.'

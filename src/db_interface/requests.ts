@@ -1,9 +1,7 @@
 import firebase from 'firebase/app';
 import 'firebase/firestore';
-import {seller1} from '../mockData'; // FIXME: should not be mock
-// IMPR: add firebse auth and other parts later
 
-import { Account, Seller } from '../defs';
+import { Account, Seller, Product } from '../defs';
 
 const firebaseConfig = {
     apiKey: "AIzaSyCMIEhXlCOq6WWEfU_95cOuNyuac2bzBaY",
@@ -20,18 +18,25 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
 export const fetchAccount = (accountId: string) => {
-    return db.collection('accounts').doc(accountId)
-        .get().then(doc => {
-            const account = doc.data();
-            if (!account) {
-                throw Error(`no account with id {accountId}`)
-            }
-
-            return ({
-                sellers: [] as Seller[],
-                ...account
-            }) as Account;
+    return Promise.all([
+        db.collection('accounts').doc(accountId).get(),
+        db.collection('accounts').doc(accountId).collection('sellers').get(),
+    
+    ]).then(([accountDoc, sellersSnapshot]) => {
+        const sellers = [] as Seller[];
+        sellersSnapshot.forEach(sellerDoc => {
+            const seller = {
+                ...sellerDoc.data(),
+                products: [] as Product[],
+            } as Seller;
+            sellers.push(seller);
         })
+        return {
+            ...accountDoc.data(),
+            sellers,
+        } as Account;
+    })
+    
 }
 
 export const addSellerToAccount = (accountId: string, seller:Seller) => {
