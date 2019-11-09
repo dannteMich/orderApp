@@ -1,6 +1,7 @@
 import React from 'react';
 import {Seller} from '../../defs';
 import SellerCard from './SellerCard';
+import {Grid} from '@material-ui/core'
 
 
 interface Props {
@@ -8,13 +9,14 @@ interface Props {
 }
 
 const SellersList: React.FC<Props> = ({sellers}) => {
-    const sellerCards = sellers.map((seller, i) => <SellerCard {...seller} key={i}/>)
-    return <div>
-        sellers list
-        <div>
-            {sellerCards};
-        </div>
-    </div>
+    const sellerCards = sellers.map((seller, i) => {
+        return <Grid key={i} item>
+            <SellerCard {...seller}/>
+        </Grid>
+    });
+    return <Grid container spacing={3} justify="center">
+            {sellerCards}
+    </Grid>
 }
 
 

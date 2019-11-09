@@ -16,7 +16,7 @@ export interface Seller {
     name: string;
     mobile?: string;
     email?: string;
-    products: Product[];
+    products?: Product[];
 }
 
 export interface Account {
