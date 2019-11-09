@@ -5,6 +5,7 @@ import {CircularProgress, Typography, Button} from '@material-ui/core'
 import {fetchAccount} from '../../db_interface/requests';
 import {Account} from '../../defs';
 import SellersList from './SellersList';
+import AddSellerButton from './AddSellerButton';
 
 interface Props {
     accountId: string;
@@ -26,7 +27,7 @@ const AccountView: React.FC<Props> = ({accountId}) => {
 
     return <div>
         <AccountBasicData {...account} />
-        <Button onClick={() => alert("should do here something")}>add seller</Button>
+        <AddSellerButton />
         <SellersList sellers={account.sellers}/>
     </div>
 }

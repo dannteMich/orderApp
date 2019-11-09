@@ -22,5 +22,5 @@ const sellers = [
     },
 ]
 
-storiesOf('Seller/SellerList', module)
+storiesOf('SellerList', module)
     .add('Grid', () => <SellerList sellers={sellers} />);
