@@ -1,6 +1,8 @@
 lock the firestore database
 Make the app direction: RTL
 Think about seciurity: do we have to have server side?
+setup firebase rules
+configue the TSDocgen 
 
 
 
