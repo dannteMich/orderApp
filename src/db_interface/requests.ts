@@ -40,8 +40,10 @@ export const fetchAccount = (accountId: string) => {
 }
 
 export const addSellerToAccount = (accountId: string, seller:Seller) => {
-    //IMPR: check if a simial seller already exists or use the seller name as ID
+    //IMPR: check if a similar seller already exists or use the seller name as ID
     const {products, ...seller_without_products} = seller;
     return db.collection('accounts').doc(accountId)
-        .collection('sellers').add(seller_without_products);
+        .collection('sellers').add(seller_without_products)
+        .then(docRef => docRef.get())
+        .then(docSnapshot => docSnapshot.exists);
 }

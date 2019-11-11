@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
 
-import {CircularProgress, Typography, Button} from '@material-ui/core'
+import {CircularProgress, Typography} from '@material-ui/core'
 
 import {fetchAccount} from '../../db_interface/requests';
 import {Account} from '../../defs';
 import SellersList from './SellersList';
-import AddSellerButton from './AddSellerButton';
+import AddSellerButton from '../AddSellerButton/AddSellerButtonContainer';
 
 interface Props {
     accountId: string;
@@ -27,7 +27,7 @@ const AccountView: React.FC<Props> = ({accountId}) => {
 
     return <div>
         <AccountBasicData {...account} />
-        <AddSellerButton />
+        <AddSellerButton accountId={accountId}/>
         <SellersList sellers={account.sellers}/>
     </div>
 }

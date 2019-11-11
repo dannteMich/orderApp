@@ -11,13 +11,13 @@ export interface Product {
 }
 
 
-
 export interface Seller {
     name: string;
     mobile?: string;
     email?: string;
     products?: Product[];
 }
+export type SellerWithoutProducts = Omit<Seller, 'products'>;
 
 export interface Account {
     name: string;
