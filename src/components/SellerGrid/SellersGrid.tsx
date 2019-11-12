@@ -9,7 +9,7 @@ interface Props {
     sellers: Seller[];
 }
 
-const SellersList: React.FC<Props> = ({sellers}) => {
+const SellersGrid: React.FC<Props> = ({sellers}) => {
     const history = useHistory();
     const sellerCards = sellers.map((seller, i) => {
         return <Grid key={i} item>
@@ -25,4 +25,4 @@ const SellersList: React.FC<Props> = ({sellers}) => {
 }
 
 
-export default SellersList
+export default SellersGrid

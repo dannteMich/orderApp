@@ -12,7 +12,7 @@ storiesOf('SellerCard', module)
       seller={{
         name: text("name", "Best Shop For food"),
         email: text("email", "Some@someprovider.com"),
-        mobile: text("mobile", "0505050500"),
+        whatsapp: text("mobile", "0505050500"),
       }} 
       onClick={action('clicked on seller')}/>})
 

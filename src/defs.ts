@@ -14,7 +14,7 @@ export interface Product {
 export interface Seller {
     name: string;
     products: Product[];
-    mobile?: string;
+    whatsapp?: string;
     email?: string;
     id?: any;
 }
@@ -25,7 +25,9 @@ export interface Account {
     manager: string;    // IMPR: this will a user later 
     members: string[];  // IMPR: this will an array of users later 
     sellers: Seller[];
+    id?: any;
 }
+export type AccountWithoutSellers = Omit<Account, 'sellers'>;
 
 
 

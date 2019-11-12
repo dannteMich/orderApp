@@ -5,7 +5,7 @@ import {Route, Switch} from 'react-router-dom';
 import { DEV_ACCOUNT_NAME } from './mockData'; // TODO: move this to context?
 
 import ApplicationBar from './components/ApplicationBar';
-import AccountView from './components/AccountView/AccountView';
+import AccountView from './components/AccountView/AccountViewContainer';
 import SellerView from './components/SellerView/SellerView';
 
 

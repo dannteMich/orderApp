@@ -1,33 +1,30 @@
 import React from 'react';
-import {SellerWithoutProducts} from '../../defs'
-import {addSellerToAccount} from '../../db_interface/requests';
-import SellerButtonComponent from './AddSellerButtonComponent';
 
+import firebase from '../../db_interface/firebase';
+import SellerButtonComponent, 
+    {SellerAdditionPromise, SellerValidationMethod} from './AddSellerButtonComponent';
 
-interface IsValidResult {
-    valid: boolean;
-    errorMessage: string;
-}
+const db = firebase.firestore();
 
 // TODO: should check if Seller with the same name exists
-const isValid = (seller: SellerWithoutProducts): IsValidResult => {
-    const {name, mobile, email} = seller;
+const validateLegalInputForSeller: SellerValidationMethod = seller => {
+    const {whatsapp, email, name} = seller;
     if (name === "") {
-        return {
-            valid: false,
-            errorMessage: "Name of Seller can't be empty",
-        }
-    } else if (mobile === "" && email === "") {
-        return {
-            valid: false,
-            errorMessage: "The Email and the Phone number can't both be empty"
-        }
+        throw Error("Name of Seller can't be empty");
     }
-    return {
-        valid: true,
-        errorMessage: ""
+    if (whatsapp === "" && email === "") {
+        throw Error("The Email and the Phone number can't both be empty");
     }
 }
+
+//export const addSellerToAccount = (accountId: string, seller: Seller) => {
+//     //IMPR: check if a similar seller already exists or use the seller name as ID
+//     const {products, ...seller_without_products} = seller;
+//     return db.collection('accounts').doc(accountId)
+//         .collection('sellers').add(seller_without_products)
+//         .then(docRef => docRef.get())
+//         .then(docSnapshot => docSnapshot.exists);
+// }
 
 
 interface Props {
@@ -35,16 +32,16 @@ interface Props {
 }
 
 const SellerButtonContainer: React.FC<Props> = ({accountId}) => {
-    const onCreate = (seller: SellerWithoutProducts) => {
-        const {errorMessage, valid} = isValid(seller);
-        if (!valid) {
-            alert(errorMessage);
-            return false;
-        }
-        addSellerToAccount(accountId, {...seller, products: []})
-        return true;
+
+    const createSellerPromise: SellerAdditionPromise = seller => {
+        return db.collection('accounts').doc(accountId).collection('sellers')
+            .add(seller).then(newSellerDoc => newSellerDoc.id ? true : false);
     }
-    return <SellerButtonComponent onCreate={onCreate} />
+    
+    return <SellerButtonComponent 
+        validateSeller={validateLegalInputForSeller}
+        handleCreatePromise={createSellerPromise}
+    />
 }
 
 export default SellerButtonContainer;

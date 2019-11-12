@@ -28,13 +28,13 @@ interface Props  {
 
 const SellerCard: React.FC<Props> = ({ seller, onClick }) => {
     const classes = useStyles();
-    const {name, email, mobile} = seller
+    const {name, email, whatsapp} = seller
     return <Card className={classes.card}>
         <CardActionArea className={classes.cardInner} onClick={onClick}>
             <CardContent>
                 <Typography className={classes.cardHeader}>{name}</Typography>
                 {email && <CardLine bolded="Email">{email}</CardLine>}
-                {mobile && <CardLine bolded="Phone">{mobile}</CardLine>}
+                {whatsapp && <CardLine bolded="Whatsapp Phone">{whatsapp}</CardLine>}
             </CardContent>
         </CardActionArea>
     </Card>

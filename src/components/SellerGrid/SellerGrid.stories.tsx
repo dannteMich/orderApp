@@ -1,7 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react'
 
-import SellerList from './SellersList';
+import SellerGrid from './SellersGrid';
 
 
 const sellers = [
@@ -25,5 +25,5 @@ const sellers = [
     },
 ]
 
-storiesOf('SellerList', module)
-    .add('Grid', () => <SellerList sellers={sellers} />);
+storiesOf('SellerGrid', module)
+    .add('Grid', () => <SellerGrid sellers={sellers} />);
