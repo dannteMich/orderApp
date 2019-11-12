@@ -2,9 +2,13 @@ import React from 'react';
 
 import {Container} from '@material-ui/core'
 
-const SellerView: React.FC = () => {
+interface Props {
+    seller_id: string;
+}
+
+const SellerView: React.FC<Props> = ({seller_id}) => {
     return <Container>
-        Seller view element
+        Seller view element: {seller_id}
     </Container>
 }
 

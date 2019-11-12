@@ -1,12 +1,14 @@
 import React from 'react';
-import { Card, CardContent, Typography} from '@material-ui/core'
+import { Card, CardContent, CardActionArea, Typography} from '@material-ui/core'
 import {makeStyles} from '@material-ui/core/styles'
 
-import {Seller} from '../../defs';
+import {SellerWithoutProducts} from '../../defs';
 
 const useStyles = makeStyles({
     card: {
         width: 300,
+    },
+    cardInner: {
         padding: 10,
     },
     cardHeader: {
@@ -19,16 +21,22 @@ const useStyles = makeStyles({
     }
 })
 
-type Props = Omit<Seller, 'products'>
+interface Props  {
+    seller: SellerWithoutProducts;
+    onClick: () => void;
+}
 
-const SellerCard: React.FC<Props> = ({ name, mobile, email }) => {
+const SellerCard: React.FC<Props> = ({ seller, onClick }) => {
     const classes = useStyles();
+    const {name, email, mobile} = seller
     return <Card className={classes.card}>
-        <CardContent>
-            <Typography className={classes.cardHeader}>{name}</Typography>
-            {email && <CardLine bolded="Email">{email}</CardLine>}
-            {mobile && <CardLine bolded="Phone">{mobile}</CardLine>}
-        </CardContent>
+        <CardActionArea className={classes.cardInner} onClick={onClick}>
+            <CardContent>
+                <Typography className={classes.cardHeader}>{name}</Typography>
+                {email && <CardLine bolded="Email">{email}</CardLine>}
+                {mobile && <CardLine bolded="Phone">{mobile}</CardLine>}
+            </CardContent>
+        </CardActionArea>
     </Card>
 
 }
