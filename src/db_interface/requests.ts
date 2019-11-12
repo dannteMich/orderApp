@@ -27,6 +27,7 @@ export const fetchAccount = (accountId: string) => {
         sellersSnapshot.forEach(sellerDoc => {
             const seller = {
                 ...sellerDoc.data(),
+                id: sellerDoc.id,
                 products: [] as Product[],
             } as Seller;
             sellers.push(seller);

@@ -8,17 +8,20 @@ const sellers = [
     {
         name: "A Seller",
         mobile: "0987654321",
-        email: "mail@gmail.com"
+        email: "mail@gmail.com",
+        products: [],
     },
     {
         name: "A Seller",
         mobile: "0987654321",
-        email: "mail@gmail.com"
+        email: "mail@gmail.com",
+        products: [],
     },
     {
         name: "A Seller",
         mobile: "0987654321",
-        email: "mail@gmail.com"
+        email: "mail@gmail.com",
+        products: [],
     },
 ]
 

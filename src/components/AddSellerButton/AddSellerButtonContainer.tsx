@@ -12,12 +12,12 @@ interface IsValidResult {
 // TODO: should check if Seller with the same name exists
 const isValid = (seller: SellerWithoutProducts): IsValidResult => {
     const {name, mobile, email} = seller;
-    if (name == "") {
+    if (name === "") {
         return {
             valid: false,
             errorMessage: "Name of Seller can't be empty",
         }
-    } else if (mobile == "" && email == "") {
+    } else if (mobile === "" && email === "") {
         return {
             valid: false,
             errorMessage: "The Email and the Phone number can't both be empty"

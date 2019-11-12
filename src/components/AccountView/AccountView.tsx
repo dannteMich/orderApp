@@ -43,7 +43,7 @@ const AccountBasicData: React.FC<AccountBasicDataProps> = ({name, manager, membe
         <Typography variant="h5">
             Account Manager: {manager}
         </Typography>
-        <Typography variant="body1">
+        <Typography variant="body1" gutterBottom>
             Members: {members_string}
         </Typography>
 

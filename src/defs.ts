@@ -13,9 +13,10 @@ export interface Product {
 
 export interface Seller {
     name: string;
+    products: Product[];
     mobile?: string;
     email?: string;
-    products?: Product[];
+    id?: any;
 }
 export type SellerWithoutProducts = Omit<Seller, 'products'>;
 
