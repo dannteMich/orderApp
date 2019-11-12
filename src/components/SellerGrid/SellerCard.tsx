@@ -34,7 +34,7 @@ const SellerCard: React.FC<Props> = ({ seller, onClick }) => {
             <CardContent>
                 <Typography className={classes.cardHeader}>{name}</Typography>
                 {email && <CardLine bolded="Email">{email}</CardLine>}
-                {whatsapp && <CardLine bolded="Whatsapp Phone">{whatsapp}</CardLine>}
+                {whatsapp && <CardLine bolded="Whatsapp">{whatsapp}</CardLine>}
             </CardContent>
         </CardActionArea>
     </Card>

@@ -1,8 +1,8 @@
 import React from 'react';
 
 import firebase from '../../db_interface/firebase';
-import SellerButtonComponent, 
-    {SellerAdditionPromise, SellerValidationMethod} from './AddSellerButtonComponent';
+import SellerButtonComponent from './AddSellerButtonComponent';
+import {SellerAdditionPromise, SellerValidationMethod} from './NewSellerDialogComponent';
 
 const db = firebase.firestore();
 
@@ -16,15 +16,6 @@ const validateLegalInputForSeller: SellerValidationMethod = seller => {
         throw Error("The Email and the Phone number can't both be empty");
     }
 }
-
-//export const addSellerToAccount = (accountId: string, seller: Seller) => {
-//     //IMPR: check if a similar seller already exists or use the seller name as ID
-//     const {products, ...seller_without_products} = seller;
-//     return db.collection('accounts').doc(accountId)
-//         .collection('sellers').add(seller_without_products)
-//         .then(docRef => docRef.get())
-//         .then(docSnapshot => docSnapshot.exists);
-// }
 
 
 interface Props {
