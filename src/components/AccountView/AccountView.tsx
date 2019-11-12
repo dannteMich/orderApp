@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 
-import {CircularProgress, Typography} from '@material-ui/core'
+import {CircularProgress, Typography, Container} from '@material-ui/core'
 
 import {fetchAccount} from '../../db_interface/requests';
 import {Account} from '../../defs';
@@ -20,16 +20,16 @@ const AccountView: React.FC<Props> = ({accountId}) => {
                 console.log(account);
                 setAccount(account);
             });
-        return <div>
+        return <Container>
             <CircularProgress />
-        </div>
+        </Container>
     }
 
-    return <div>
+    return <Container>
         <AccountBasicData {...account} />
         <AddSellerButton accountId={accountId}/>
         <SellersList sellers={account.sellers}/>
-    </div>
+    </Container>
 }
 
 type AccountBasicDataProps = Omit<Account, 'sellers'>;
