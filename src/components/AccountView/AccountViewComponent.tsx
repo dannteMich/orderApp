@@ -4,7 +4,7 @@ import {Container} from '@material-ui/core'
 
 import {Account} from '../../defs';
 import SellersGrid from '../SellerGrid/SellersGrid';
-import AddSellerButton from '../AddSellerButton/AddSellerButtonContainer';
+import AddSellerButton from '../AddSellerButton/AddSellerButtonComponent';
 import AccountBasicData from './AccountBasicData';
 
 
@@ -17,7 +17,7 @@ const AccountView: React.FC<Account> = ({sellers, id, ...accountData}) => {
 
     return <Container>
         <AccountBasicData {...accountData} />
-        <AddSellerButton accountId={id}/>
+        <AddSellerButton />
         {sellersComponent}
     </Container>
 }

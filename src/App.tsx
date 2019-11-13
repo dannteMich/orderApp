@@ -2,11 +2,9 @@ import React from 'react';
 
 import {Route, Switch} from 'react-router-dom';
 
-import { DEV_ACCOUNT_NAME } from './mockData'; // TODO: move this to context?
-
 import ApplicationBar from './components/ApplicationBar';
 import AccountView from './components/AccountView/AccountViewContainer';
-import SellerView from './components/SellerView/SellerView';
+import SellerView from './components/SellerView/SellerViewContainer';
 
 
 const App: React.FC = () => {
@@ -16,8 +14,8 @@ const App: React.FC = () => {
     <div>
       <ApplicationBar caption="Account Management" />
       <Switch>
-        <Route path="/" exact render={() => <AccountView accountId={DEV_ACCOUNT_NAME} />} />
-        <Route path="/sellers/:id" render={({match}) => <SellerView seller_id={match.params.id}/>} />
+        <Route path="/" exact render={() => <AccountView/>} />
+        <Route path="/sellers/:id" render={({match}) => <SellerView sellerId={match.params.id}/>} />
       </Switch>
     </div>
   );

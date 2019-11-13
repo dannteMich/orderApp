@@ -2,16 +2,9 @@ import React, {useState} from 'react';
 
 import {Button} from '@material-ui/core'
 
-import NewSellerDialogComponent, 
-    {SellerAdditionPromise, SellerValidationMethod} from './NewSellerDialogComponent';
+import NewSellerDialog from './NewSellerDialogContainer';
 
-
-interface Props {
-    validateSeller: SellerValidationMethod,
-    handleCreatePromise: SellerAdditionPromise,
-}
-
-const AddSellerButton:React.FC<Props> = ({validateSeller, handleCreatePromise}) => {    
+const AddSellerButton:React.FC = () => {    
     const [open, setOpen] = useState(false);
 
     return <div>
@@ -20,11 +13,9 @@ const AddSellerButton:React.FC<Props> = ({validateSeller, handleCreatePromise}) 
                 Add Seller
         </Button>
         
-        <NewSellerDialogComponent 
+        <NewSellerDialog 
             isOpen={open}
             close={() => setOpen(false)}
-            validateSeller={validateSeller}
-            handleCreatePromise={handleCreatePromise}
         />
 
     </div>

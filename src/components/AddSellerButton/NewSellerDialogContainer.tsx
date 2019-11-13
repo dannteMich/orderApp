@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
-import firebase from '../../db_interface/firebase';
-import SellerButtonComponent from './AddSellerButtonComponent';
+import firebase from '../../commonLogical/firebase';
+import {AccountIdContext} from '../../commonLogical/contexts';
+import NewSellerDialogComponent from './NewSellerDialogComponent';
 import {SellerAdditionPromise, SellerValidationMethod} from './NewSellerDialogComponent';
 
 const db = firebase.firestore();
@@ -17,22 +18,24 @@ const validateLegalInputForSeller: SellerValidationMethod = seller => {
     }
 }
 
-
 interface Props {
-    accountId: string;
+    isOpen: boolean;
+    close: () => void;
 }
 
-const SellerButtonContainer: React.FC<Props> = ({accountId}) => {
-
+const NewSellerDialogContainer: React.FC<Props> = ({isOpen, close}) => {
+    const accountId = useContext(AccountIdContext);
     const createSellerPromise: SellerAdditionPromise = seller => {
         return db.collection('accounts').doc(accountId).collection('sellers')
             .add(seller).then(newSellerDoc => newSellerDoc.id ? true : false);
     }
     
-    return <SellerButtonComponent 
+    return <NewSellerDialogComponent 
+        isOpen={isOpen}
+        close={close}
         validateSeller={validateLegalInputForSeller}
         handleCreatePromise={createSellerPromise}
     />
 }
 
-export default SellerButtonContainer;
+export default NewSellerDialogContainer;

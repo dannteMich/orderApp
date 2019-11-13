@@ -1,17 +1,15 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 
 import {AccountWithoutSellers, Seller, Product} from '../../defs';
-import firebase from '../../db_interface/firebase';
+import firebase from '../../commonLogical/firebase';
+import {AccountIdContext} from '../../commonLogical/contexts';
 import AccountViewComponent from './AccountViewComponent';
-import Loading from '../../common/LoadingBlob';
+import Loading from '../../commonComponents/LoadingBlob';
 
 const db = firebase.firestore();
 
-interface Props {
-    accountId: string;
-}
-
-const AccountViewContainer: React.FC<Props> = ({accountId}) => {
+const AccountViewContainer: React.FC = () => {
+    const accountId = useContext(AccountIdContext);
     const [accountData, setAccountData] = useState<AccountWithoutSellers>();
     const [sellers, setSellers] = useState<Array<Seller>>();
 
@@ -30,12 +28,11 @@ const AccountViewContainer: React.FC<Props> = ({accountId}) => {
         db.collection('accounts').doc(accountId).collection('sellers').onSnapshot(collection => {
             const newSellers = [] as Seller[];
             collection.forEach(doc => {
-                const sellerData = {
+                newSellers.push({
                     ...doc.data(),
                     id: doc.id,
                     products: [] as Product[],
-                } as Seller;
-                newSellers.push(sellerData);
+                } as Seller);
             })
             setSellers(newSellers)
         }, /* TODO: handle error? */);

@@ -7,6 +7,7 @@ export enum Measurement {
 
 export interface Product {
     name: string;
+    id?: string;
     measurement: Measurement;
 }
 

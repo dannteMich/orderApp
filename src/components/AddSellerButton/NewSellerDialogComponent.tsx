@@ -47,7 +47,7 @@ const NewSellerDialogComponent: React.FC<Props> = ({ isOpen, close, validateSell
         // TODO: clear empty-string values
         handleCreatePromise(newSeller).then(created => {
             if (created) {
-                clearFields(); close(); // TODO: goto page of new seller
+                clearFields(); close(); // TODO: goto page of new seller?
                 alert('created successfully'); // TODO: use sidebar
             } else {
                 alert('failed creating'); // TODO: use sidebar
@@ -55,7 +55,7 @@ const NewSellerDialogComponent: React.FC<Props> = ({ isOpen, close, validateSell
         })
     }
 
-    return (<Dialog open={isOpen} fullScreen={useMediaQuery('(max-width:600px)')}>
+    return <Dialog open={isOpen} fullScreen={useMediaQuery('(max-width:600px)')}>
         <DialogTitle>Add Seller to Account</DialogTitle>
         <DialogContent>
             <DialogContentText>
@@ -76,7 +76,7 @@ const NewSellerDialogComponent: React.FC<Props> = ({ isOpen, close, validateSell
             </DialogActions>
 
         </DialogContent>
-    </Dialog>)
+    </Dialog>
 }
 
 interface SellerTextFieldProps {
