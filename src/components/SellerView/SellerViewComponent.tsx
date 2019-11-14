@@ -3,7 +3,7 @@ import React from 'react';
 import {Container, Typography, List, ListItem, ListItemText} from '@material-ui/core'
 import {createStyles} from '@material-ui/styles'
 
-import {Seller} from '../../defs';
+import {Seller, Product} from '../../defs';
 
 type Props = Seller;
 
@@ -26,7 +26,21 @@ const SellerView: React.FC<Props> = ({id, name, email="", whatsapp="", products}
             {emailNode}
             {whatsappNode}
         </List>
+        <div>
+            <ProductTable products={products}/>
+        </div>
     </Container>
+}
+
+interface ProductTableProps {
+    products: Product[];
+}
+
+const ProductTable: React.FC<ProductTableProps> = ({products}) => {
+    const productItems = products.map((product, i) => <li key={i}>{product.name}</li>)
+    return <ul>
+        {productItems}
+    </ul>
 }
 
 interface ContactNodeProps {
