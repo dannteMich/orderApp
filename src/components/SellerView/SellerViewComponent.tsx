@@ -1,7 +1,6 @@
 import React from 'react';
 
 import {Container, Typography, List, ListItem, ListItemText} from '@material-ui/core'
-import {createStyles} from '@material-ui/styles'
 
 import {Seller, Product} from '../../defs';
 
