@@ -15,17 +15,20 @@ const useStyle = makeStyles({
     }
 })
 
+export type validationProductCallBack = (product: Partial<Product>) => void;
+export type addProductPromiseCreator = (product: Product) => Promise<boolean>;
+
 interface Props {
-    validateProduct: (product: Partial<Product>) => void;
+    validateProduct: validationProductCallBack;
     handleCreatePromise: (product: Product) => Promise<boolean>;
 }
 
 const AddProductComponent: React.FC<Props> = ({validateProduct, handleCreatePromise}) => {
     const classes = useStyle();
-    const [name, setName] = useState<string>();
+    const [name, setName] = useState<string>("");
     const [measurement, setMeasurement] = useState<Measurement>();
 
-    const clearFields = () => {setName(""); setMeasurement(undefined)};
+    const clearFields = () => { setName(""); setMeasurement(undefined)};
 
     const onCreateClick = () => {
         let newProduct = {name, measurement};
@@ -45,7 +48,7 @@ const AddProductComponent: React.FC<Props> = ({validateProduct, handleCreateProm
     }
     
     const measurementOptions = _.map(Measurement, (value, key) => {
-        return <MenuItem key={key} value={key}>{value}</MenuItem>
+        return <MenuItem key={key} value={value}>{value}</MenuItem>
     });
     return <Box display="flex" justifyContent="center">
         <Box p={1}>

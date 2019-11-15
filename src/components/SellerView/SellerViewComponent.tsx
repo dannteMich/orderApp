@@ -3,6 +3,7 @@ import React from 'react';
 import {Container, Typography, List, ListItem, ListItemText} from '@material-ui/core'
 
 import {Seller, Product} from '../../defs';
+import AddProductForm from './AddProductContainer';
 
 type Props = Seller;
 
@@ -25,6 +26,7 @@ const SellerView: React.FC<Props> = ({id, name, email="", whatsapp="", products}
             {emailNode}
             {whatsappNode}
         </List>
+        <AddProductForm sellerId={id}/>
         <div>
             <ProductTable products={products}/>
         </div>

@@ -26,8 +26,9 @@ interface Props {
 const NewSellerDialogContainer: React.FC<Props> = ({isOpen, close}) => {
     const accountId = useContext(AccountIdContext);
     const createSellerPromise: SellerAdditionPromise = seller => {
-        return db.collection('accounts').doc(accountId).collection('sellers')
-            .add(seller).then(newSellerDoc => newSellerDoc.id ? true : false);
+        return firebase.firestore().collection('accounts').doc(accountId)
+            .collection('sellers').add(seller)
+            .then(newSellerDoc => newSellerDoc.id ? true : false);
     }
     
     return <NewSellerDialogComponent 
