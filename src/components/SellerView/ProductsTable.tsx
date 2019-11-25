@@ -16,7 +16,7 @@ interface Props {
     products: Product[];
     handleDeleteClick: (productId: string) => void;
 }
-
+// IMPR: if not products than show message
 const ProductsTable: React.FC<Props> = ({ products, handleDeleteClick}) => {
     const classes = useStyles();
     const rows = products

@@ -2,17 +2,19 @@ import React from 'react';
 
 import {Container, Typography, List, ListItem, ListItemText} from '@material-ui/core'
 
-import {Seller, Product} from '../../defs';
-import AddProductForm from './AddProductContainer';
+import {Seller, NewProduct} from '../../defs';
+import AddProductForm from './AddProductComponent';
 import ProductTable from './ProductsTable';
 
 interface Props {
     seller: Seller;
+    validateProduct: (product: Partial<NewProduct>) => void;
+    handleAddProduct: (product: NewProduct) => Promise<boolean>;
     handleDeleteSeller: (v: void) => Promise<void>;
     handleDeleteProduct: (productId: string) => Promise<void>;
 }
 
-const SellerView: React.FC<Props> = ({ seller, handleDeleteSeller, handleDeleteProduct}) => {
+const SellerView: React.FC<Props> = ({ seller, validateProduct, handleAddProduct, handleDeleteSeller, handleDeleteProduct}) => {
     const {email, whatsapp, name, id, products} = seller;
     const emailNode = email === "" ? null : 
         <ListItemContact name="Email" value={email || ""} />;
@@ -32,7 +34,7 @@ const SellerView: React.FC<Props> = ({ seller, handleDeleteSeller, handleDeleteP
             {emailNode}
             {whatsappNode}
         </List>
-        <AddProductForm sellerId={id}/>
+        <AddProductForm validateProduct={validateProduct} handleCreatePromise={handleAddProduct}/>
         
         <ProductTable products={products} handleDeleteClick={handleDeleteProduct}/>
     </Container>

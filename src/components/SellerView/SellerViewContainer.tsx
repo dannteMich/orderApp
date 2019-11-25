@@ -2,7 +2,7 @@ import React, {useState, useContext} from 'react'
 
 import {AccountIdContext} from '../../commonLogical/contexts';
 import firebase from '../../commonLogical/firebase';
-import {Seller, Product} from '../../defs';
+import {NewSeller, Product, NewProduct, Measurement} from '../../defs';
 
 import SellerViewComponent from './SellerViewComponent';
 import LoadingComponent from '../../commonComponents/LoadingBlob';
@@ -17,12 +17,17 @@ interface Props {
 
 const SellerViewContainer: React.FC<Props> = ({sellerId}) => {
     const accountId = useContext(AccountIdContext);
-    const [seller, setSeller] = useState<Seller>();
+    const [seller, setSeller] = useState<NewSeller>();
     const [products, setProducts] = useState<Array<Product>>();
 
     const getSellerDoc = () => db.collection('accounts').doc(accountId)
         .collection('sellers').doc(sellerId);
 
+    const addProductPromise = (product: NewProduct) => {
+        getSellerDoc().collection('products').add(product)
+            .then(newProductDoc => newProductDoc.id ? true : false);
+    }
+    
     const deleteSellerPromise = () => {
         return getSellerDoc().delete();
     }
@@ -34,16 +39,21 @@ const SellerViewContainer: React.FC<Props> = ({sellerId}) => {
         return getSellerDoc().collection('products').doc(productId).delete();
     }
 
+    const validateProduct = (product: Partial<NewProduct>) => {
+        const { name, measurement } = product;
+        if (!measurement || !Object.values(Measurement).includes(measurement)) {
+            throw Error("Measurement is not set to a legal value")
+        }
+        if (!name || name === "") {
+            throw Error("Name is not set to a legal value")
+        }
+    }
+
+
     if (!seller) {
-        getSellerDoc().onSnapshot(doc => {
-                const newSeller = {
-                    ...doc.data(),
-                    id: doc.id,
-                    products: [] as Array<Product>,
-                } as Seller;
-                setSeller(newSeller);
-            })
+        getSellerDoc().onSnapshot(doc => setSeller(doc.data() as NewSeller));
         return <LoadingComponent />
+    
     } else if (!products) {
         getSellerDoc().collection('products').onSnapshot(collection => {
                 const newProducts = [] as Product[];
@@ -56,9 +66,10 @@ const SellerViewContainer: React.FC<Props> = ({sellerId}) => {
                 setProducts(newProducts);
             })
         return <LoadingComponent />
+    
     } else {
         return <SellerViewComponent 
-            seller={{...seller, products}} 
+            seller={{...seller, products, id: sellerId}} 
             handleDeleteProduct={deleteProductPromise}
             handleDeleteSeller={deleteSellerPromise}
         />   

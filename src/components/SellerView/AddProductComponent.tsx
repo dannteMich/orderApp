@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import _ from 'lodash';
 
-import {Product, Measurement} from '../../defs';
-import { TextField, Box, MenuItem, Button } from '@material-ui/core';
+import {NewProduct, Measurement} from '../../defs';
+import {TextField, Box, MenuItem, Button } from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
 
 
@@ -15,12 +15,9 @@ const useStyle = makeStyles({
     }
 })
 
-export type validationProductCallBack = (product: Partial<Product>) => void;
-export type addProductPromiseCreator = (product: Product) => Promise<boolean>;
-
 interface Props {
-    validateProduct: validationProductCallBack;
-    handleCreatePromise: (product: Product) => Promise<boolean>;
+    validateProduct: (product: Partial<NewProduct>) => void;
+    handleCreatePromise: (product: NewProduct) => Promise<boolean>;
 }
 
 const AddProductComponent: React.FC<Props> = ({validateProduct, handleCreatePromise}) => {
@@ -38,7 +35,8 @@ const AddProductComponent: React.FC<Props> = ({validateProduct, handleCreateProm
             alert(error);
             return;
         }
-        handleCreatePromise(newProduct as Product).then(created => {
+        
+        handleCreatePromise(newProduct as NewProduct).then(created => {
             if (created) {
                 clearFields(); alert('created successfully');
             } else {

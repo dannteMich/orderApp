@@ -7,8 +7,8 @@ import SellerViewComponent from './SellerViewComponent';
 import ProductsTable from './ProductsTable';
 import AddProductComponent from './AddProductComponent';
 
-import { seller1 } from '../../mockData';
-import { mockProducts } from '../../mockData';
+import { seller1, mockProducts } from '../../mockData';
+import {NewProduct} from '../../defs';
 
 
 storiesOf('SellerView', module)
@@ -20,18 +20,26 @@ storiesOf('SellerView', module)
         const isValid = boolean('Product is valid', true);
         const notValidReason = text("Not Valid Reason", "Some reason this is not valid")
         const createdSuccessfully = boolean('product created successfully', true);
-        const validationFunc = p => {
+        
+        const validationFunc = (p: Partial<NewProduct>) => {
             if (!isValid) {
-                throw Error(notValidReason);
+                throw Error(notValidReason); // TODO: make oneliner
             }
         }
+        
         return <AddProductComponent
             validateProduct={validationFunc}
             handleCreatePromise={p => Promise.resolve(createdSuccessfully)}
         />
     })
-    .add('everything', () => <SellerViewComponent
-        seller={seller1}
-        handleDeleteProduct={productId => Promise.resolve()}
-        handleDeleteSeller={() => Promise.resolve()}
-    />)
+    .add('everything', () => {
+        const responseString = "test this functionality in the add product story"
+
+        const validationFunc = (p: Partial<NewProduct>) => {throw(responseString)}
+        return <SellerViewComponent
+            seller={seller1}
+            validateProduct={validationFunc}
+            handleAddProduct={p => Promise.reject(responseString)}
+            handleDeleteProduct={productId => Promise.resolve()}
+            handleDeleteSeller={() => Promise.resolve()}
+    />})
