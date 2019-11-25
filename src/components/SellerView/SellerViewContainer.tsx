@@ -9,6 +9,8 @@ import LoadingComponent from '../../commonComponents/LoadingBlob';
 
 const db = firebase.firestore();
 
+
+
 interface Props {
     sellerId: string;
 }
@@ -18,9 +20,22 @@ const SellerViewContainer: React.FC<Props> = ({sellerId}) => {
     const [seller, setSeller] = useState<Seller>();
     const [products, setProducts] = useState<Array<Product>>();
 
+    const getSellerDoc = () => db.collection('accounts').doc(accountId)
+        .collection('sellers').doc(sellerId);
+
+    const deleteSellerPromise = () => {
+        return getSellerDoc().delete();
+    }
+
+    const deleteProductPromise = (productId: string) => {
+        if (!productId) {
+            throw Error('No product corresponding to this ID');
+        }
+        return getSellerDoc().collection('products').doc(productId).delete();
+    }
+
     if (!seller) {
-        db.collection('accounts').doc(accountId)
-            .collection('sellers').doc(sellerId).onSnapshot(doc => {
+        getSellerDoc().onSnapshot(doc => {
                 const newSeller = {
                     ...doc.data(),
                     id: doc.id,
@@ -30,8 +45,7 @@ const SellerViewContainer: React.FC<Props> = ({sellerId}) => {
             })
         return <LoadingComponent />
     } else if (!products) {
-        db.collection('accounts').doc(accountId).collection('sellers')
-            .doc(sellerId).collection('products').onSnapshot(collection => {
+        getSellerDoc().collection('products').onSnapshot(collection => {
                 const newProducts = [] as Product[];
                 collection.forEach(doc => {
                     newProducts.push({
@@ -43,7 +57,11 @@ const SellerViewContainer: React.FC<Props> = ({sellerId}) => {
             })
         return <LoadingComponent />
     } else {
-        return <SellerViewComponent {...seller as Seller} products={products} />   
+        return <SellerViewComponent 
+            seller={{...seller, products}} 
+            handleDeleteProduct={deleteProductPromise}
+            handleDeleteSeller={deleteSellerPromise}
+        />   
     }
 }
 

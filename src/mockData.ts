@@ -2,53 +2,70 @@ import {Measurement,Product, Seller, Account} from './defs';
 
 export const mockProducts: Product[] = [
     {
+        id: "Apples",
         name: "Apples",
         measurement: Measurement.GRAMS,
     },
     {
+        id: "Pears",
         name: "Pears",
         measurement: Measurement.GRAMS,
     },
     {
+        id: "Milk",
         name: "Milk",
         measurement: Measurement.UNITS,
     },
     {
+        id: "Salmon Fish",
         name: "Salmon Fish",
         measurement: Measurement.KG,
     },
     {
+        id: "Soy souce",
         name: "Soy souce",
         measurement: Measurement.PACKS,
     },
     {
+        id: "Mushrooms",
         name: "Mushrooms",
         measurement: Measurement.PACKS,
+    },
+    {
+        id: "apples - green",
+        name: "apples - green",
+        measurement: Measurement.GRAMS,
     },
 ]
 
 export const mockProducts2: Product[] = [
     {
+        id: "Red Apples",
         name: "Red Apples",
         measurement: Measurement.GRAMS,
     },
     {
+        id: "Yellow Pears",
         name: "Yellow Pears",
         measurement: Measurement.GRAMS,
     },
     {
+        id: "Soy Milk",
         name: "Soy Milk",
         measurement: Measurement.UNITS,
     },
     {
+        id: "Tuna Fish",
         name: "Tuna Fish",
         measurement: Measurement.KG,
     },
     {
+        id: "Tariaki souce",
         name: "Tariaki souce",
         measurement: Measurement.PACKS,
     },
     {
+        id: "Shrooms",
         name: "Shrooms",
         measurement: Measurement.PACKS,
     },

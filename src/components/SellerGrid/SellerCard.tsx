@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, CardContent, CardActionArea, Typography} from '@material-ui/core'
 import {makeStyles} from '@material-ui/core/styles'
 
-import {SellerWithoutProducts} from '../../defs';
+import {NewSeller} from '../../defs';
 
 const useStyles = makeStyles({
     card: {
@@ -22,7 +22,7 @@ const useStyles = makeStyles({
 })
 
 interface Props  {
-    seller: SellerWithoutProducts;
+    seller: NewSeller;
     onClick: () => void;
 }
 

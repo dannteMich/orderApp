@@ -5,28 +5,35 @@ export enum Measurement {
     PACKS = "packs",
 } 
 
-export interface Product {
+export interface NewProduct {
     name: string;
-    id?: string;
     measurement: Measurement;
 }
 
+export interface Product extends NewProduct {
+    id: string;
+    sellerId?: string; // TODO: later should be mandatory
+}
 
-export interface Seller {
+
+export interface NewSeller {
     name: string;
-    products: Product[];
     whatsapp?: string;
     email?: string;
-    id?: any;
+    
 }
-export type SellerWithoutProducts = Omit<Seller, 'products'>;
+
+export interface Seller extends NewSeller {
+    products: Product[];
+    id: string;
+}
 
 export interface Account {
     name: string;
     manager: string;    // IMPR: this will a user later 
     members: string[];  // IMPR: this will an array of users later 
     sellers: Seller[];
-    id?: any;
+    id?: string;
 }
 export type AccountWithoutSellers = Omit<Account, 'sellers'>;
 

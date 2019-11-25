@@ -4,15 +4,21 @@ import {Container, Typography, List, ListItem, ListItemText} from '@material-ui/
 
 import {Seller, Product} from '../../defs';
 import AddProductForm from './AddProductContainer';
+import ProductTable from './ProductsTable';
 
-type Props = Seller;
+interface Props {
+    seller: Seller;
+    handleDeleteSeller: (v: void) => Promise<void>;
+    handleDeleteProduct: (productId: string) => Promise<void>;
+}
 
-const SellerView: React.FC<Props> = ({id, name, email="", whatsapp="", products}) => {
+const SellerView: React.FC<Props> = ({ seller, handleDeleteSeller, handleDeleteProduct}) => {
+    const {email, whatsapp, name, id, products} = seller;
     const emailNode = email === "" ? null : 
-        <ListItemContact name="Email" value={email} />;
+        <ListItemContact name="Email" value={email || ""} />;
     
     const whatsappNode = whatsapp === "" ? null : 
-        <ListItemContact name="Whtasapp Phone" value={whatsapp} />;
+        <ListItemContact name="Whtasapp Phone" value={whatsapp || ""} />;
  
     
     return <Container>
@@ -27,22 +33,11 @@ const SellerView: React.FC<Props> = ({id, name, email="", whatsapp="", products}
             {whatsappNode}
         </List>
         <AddProductForm sellerId={id}/>
-        <div>
-            <ProductTable products={products}/>
-        </div>
+        
+        <ProductTable products={products} handleDeleteClick={handleDeleteProduct}/>
     </Container>
 }
 
-interface ProductTableProps {
-    products: Product[];
-}
-
-const ProductTable: React.FC<ProductTableProps> = ({products}) => {
-    const productItems = products.map((product, i) => <li key={i}>{product.name}</li>)
-    return <ul>
-        {productItems}
-    </ul>
-}
 
 interface ContactNodeProps {
     name: string;
