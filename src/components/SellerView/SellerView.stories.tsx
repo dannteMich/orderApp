@@ -14,7 +14,7 @@ import {NewProduct} from '../../defs';
 storiesOf('SellerView', module)
     .add('product Table', () => <ProductsTable
         products={object('products', mockProducts)}
-        handleDeleteClick={action("clicked delete!")}
+        handleDeleteClick={p => Promise.resolve()}
     />)
     .add('add product', () => {
         const isValid = boolean('Product is valid', true);

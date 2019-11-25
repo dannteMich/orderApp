@@ -24,7 +24,7 @@ const SellerViewContainer: React.FC<Props> = ({sellerId}) => {
         .collection('sellers').doc(sellerId);
 
     const addProductPromise = (product: NewProduct) => {
-        getSellerDoc().collection('products').add(product)
+        return getSellerDoc().collection('products').add(product)
             .then(newProductDoc => newProductDoc.id ? true : false);
     }
     
@@ -70,6 +70,8 @@ const SellerViewContainer: React.FC<Props> = ({sellerId}) => {
     } else {
         return <SellerViewComponent 
             seller={{...seller, products, id: sellerId}} 
+            validateProduct={validateProduct}
+            handleAddProduct={addProductPromise}
             handleDeleteProduct={deleteProductPromise}
             handleDeleteSeller={deleteSellerPromise}
         />   

@@ -14,7 +14,7 @@ const useStyles = makeStyles({
 
 interface Props {
     products: Product[];
-    handleDeleteClick: (productId: string) => void;
+    handleDeleteClick: (productId: string) => Promise<void>;
 }
 // IMPR: if not products than show message
 const ProductsTable: React.FC<Props> = ({ products, handleDeleteClick}) => {
@@ -24,7 +24,7 @@ const ProductsTable: React.FC<Props> = ({ products, handleDeleteClick}) => {
         .map((product, i) => <ProductRow 
             key={i}
             product={product} 
-            onClickDelete={() => handleDeleteClick(product.id)}
+            onClickDelete={() => handleDeleteClick(product.id)} // IMPR: feedback on delete
         />)
 
     return <Box>
