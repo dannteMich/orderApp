@@ -8,7 +8,7 @@ import AddSellerButton from '../AddSellerButton/AddSellerButtonComponent';
 import AccountBasicData from './AccountBasicData';
 
 
-const AccountView: React.FC<Account> = ({sellers, id, ...accountData}) => {
+const AccountView: React.FC<Account> = ({sellers, ...accountData}) => {
     
 
     const sellersComponent = sellers.length !== 0 ? 

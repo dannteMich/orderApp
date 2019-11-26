@@ -7,6 +7,7 @@ import AccountViewComponent from './AccountViewComponent';
 import Loading from '../../commonComponents/LoadingBlob';
 
 const db = firebase.firestore();
+const getAccountDoc = (accountId: string) => db.collection('accounts').doc(accountId);
 
 const AccountViewContainer: React.FC = () => {
     const accountId = useContext(AccountIdContext);
@@ -15,7 +16,7 @@ const AccountViewContainer: React.FC = () => {
 
     // TODO: move the fetching to functions in this component
     if (!accountData) {
-        db.collection('accounts').doc(accountId).onSnapshot(doc => {
+        getAccountDoc(accountId).onSnapshot(doc => {
             const newAccountData =  {
                 ...doc.data(),
                 id: doc.id,
@@ -25,7 +26,7 @@ const AccountViewContainer: React.FC = () => {
         return  <Loading />
     
     } else if (!sellers) {
-        db.collection('accounts').doc(accountId).collection('sellers').onSnapshot(collection => {
+        getAccountDoc(accountId).collection('sellers').onSnapshot(collection => {
             const newSellers = [] as Seller[];
             collection.forEach(doc => {
                 newSellers.push({

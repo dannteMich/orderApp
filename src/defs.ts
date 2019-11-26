@@ -28,12 +28,16 @@ export interface Seller extends NewSeller {
     id: string;
 }
 
-export interface Account {
+export interface NewAccount {
     name: string;
-    manager: string;    // IMPR: this will a user later 
-    members: string[];  // IMPR: this will an array of users later 
+    owner: string;
+}
+
+export interface Account extends NewAccount {
+    managers: string[];    
+    members: string[];  
     sellers: Seller[];
-    id?: string;
+    id: string;
 }
 export type AccountWithoutSellers = Omit<Account, 'sellers'>;
 

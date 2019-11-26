@@ -93,7 +93,9 @@ export const DEV_ACCOUNT_NAME = 'dev_account'
 
 export const account1: Account = {
     name: DEV_ACCOUNT_NAME,
-    manager: "michael",
-    members: ["amit"],
+    owner: "michael@someMail.com",
+    managers: [],
+    members: ["Amit"],
     sellers: [],
+    id: 'mockAccount'
 }
