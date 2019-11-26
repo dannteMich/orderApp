@@ -5,8 +5,6 @@ import {AccountIdContext} from '../../commonLogical/contexts';
 import NewSellerDialogComponent from './NewSellerDialogComponent';
 import {SellerAdditionPromise, SellerValidationMethod} from './NewSellerDialogComponent';
 
-const db = firebase.firestore();
-
 // TODO: should check if Seller with the same name exists
 const validateLegalInputForSeller: SellerValidationMethod = seller => {
     const {whatsapp, email, name} = seller;

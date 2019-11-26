@@ -1,15 +1,5 @@
-lock the firestore database
+set rules for the firestore database
 Make the app direction: RTL
-Think about seciurity: do we have to have server side?
-setup firebase rules
-configue the TSDocgen 
+configure the TSDocgen 
+allow for phone authentication
 
-
-
-for starters: firebase hirarchy looks like this:
-
-    
-        sellers collection
-            seller document
-                products collection
-                    product document

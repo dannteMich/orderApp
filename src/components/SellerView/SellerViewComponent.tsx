@@ -15,12 +15,12 @@ interface Props {
 }
 
 const SellerView: React.FC<Props> = ({ seller, validateProduct, handleAddProduct, handleDeleteSeller, handleDeleteProduct}) => {
-    const {email, whatsapp, name, id, products} = seller;
+    const {email, whatsapp, name, products} = seller;
     const emailNode = email === "" ? null : 
         <ListItemContact name="Email" value={email || ""} />;
     
     const whatsappNode = whatsapp === "" ? null : 
-        <ListItemContact name="Whtasapp Phone" value={whatsapp || ""} />;
+        <ListItemContact name="Whatsapp Phone" value={whatsapp || ""} />;
  
     
     return <Container>
