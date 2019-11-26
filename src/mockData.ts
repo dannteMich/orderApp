@@ -1,5 +1,9 @@
 import {Measurement,Product, Seller, Account} from './defs';
 
+export const mockUser = {
+    email: "dannte@gmail.com"
+};
+
 export const mockProducts: Product[] = [
     {
         id: "Apples",
