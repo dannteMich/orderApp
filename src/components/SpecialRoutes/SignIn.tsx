@@ -1,10 +1,11 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useContext} from 'react';
 
 import {Container} from '@material-ui/core';
 import {useHistory} from 'react-router-dom';
 
 import firebase from '../../commonLogical/firebase';
 import * as firebaseui from 'firebaseui';
+import { userContext } from '../../commonLogical/contexts';
 
 
 const AUTH_NODE_ID = 'firebaseui-auth-container'
@@ -12,9 +13,13 @@ const AUTH_NODE_ID = 'firebaseui-auth-container'
 
 const SignIn: React.FC = () => {
     const history = useHistory();
-    const user = firebase.auth().currentUser
-    
-    if (user) { // if you got here by mistake
+    const { userId, setUserId } = useContext(userContext);
+    const user = firebase.auth().currentUser;
+
+    if (user && user.email) { // if you got here by mistake
+        if (userId !== user.email) {
+            setUserId(user.email as string);
+        }
         history.replace('/');
     }
 
@@ -35,6 +40,8 @@ const SignIn: React.FC = () => {
         ],
         callbacks: {
             signInSuccessWithAuthResult: (authResult: firebase.auth.UserCredential, redirectUrl: string) => {
+    
+                setUserId((firebase.auth().currentUser as firebase.User).email as string);
                 history.replace('/');
                 return false;
             }

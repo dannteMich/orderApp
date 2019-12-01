@@ -4,17 +4,14 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import {BrowserRouter} from 'react-router-dom'
-
-import {AccountIdContext} from './commonLogical/contexts';
-
-import { DEV_ACCOUNT_NAME } from './mockData'; // TODO: later from sign in
+import AppContext from './commonLogical/contexts';
 
 ReactDOM.render(
-    <AccountIdContext.Provider value={DEV_ACCOUNT_NAME}>
-        <BrowserRouter>
+    <BrowserRouter>
+        <AppContext>
             <App />
-        </BrowserRouter>
-    </AccountIdContext.Provider>
+        </AppContext>
+    </BrowserRouter>
 , document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change

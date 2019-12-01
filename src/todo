@@ -3,3 +3,4 @@ Make the app direction: RTL
 configure the TSDocgen 
 allow for phone authentication
 
+handle errors on firebase operations

@@ -1,7 +1,7 @@
 import React from 'react';
 import {AppBar, Toolbar, Typography, makeStyles, Button} from '@material-ui/core';
 
-import firebase from '../commonLogical/firebase';
+// import firebase from '../commonLogical/firebase'; // TODO: uncomment this
 import { mockUser } from '../mockData';
 import { useHistory } from 'react-router';
 

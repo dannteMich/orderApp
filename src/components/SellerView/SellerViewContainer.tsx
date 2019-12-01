@@ -1,11 +1,12 @@
 import React, {useState, useContext} from 'react'
 
-import {AccountIdContext} from '../../commonLogical/contexts';
+import {currentAccountIdContext} from '../../commonLogical/contexts';
 import firebase from '../../commonLogical/firebase';
 import {NewSeller, Product, NewProduct, Measurement} from '../../defs';
 
 import SellerViewComponent from './SellerViewComponent';
 import LoadingComponent from '../../commonComponents/LoadingBlob';
+import LoadingBlob from '../../commonComponents/LoadingBlob';
 
 const db = firebase.firestore();
 
@@ -16,11 +17,11 @@ interface Props {
 }
 
 const SellerViewContainer: React.FC<Props> = ({sellerId}) => {
-    const accountId = useContext(AccountIdContext);
+    const {currentAccountId} = useContext(currentAccountIdContext);
     const [seller, setSeller] = useState<NewSeller>();
     const [products, setProducts] = useState<Array<Product>>();
 
-    const getSellerDoc = () => db.collection('accounts').doc(accountId)
+    const getSellerDoc = () => db.collection('accounts').doc(currentAccountId)
         .collection('sellers').doc(sellerId);
 
     const addProductPromise = (product: NewProduct) => {
@@ -49,6 +50,9 @@ const SellerViewContainer: React.FC<Props> = ({sellerId}) => {
         }
     }
 
+    if (!currentAccountId) {
+        return <LoadingBlob />
+    }
 
     if (!seller) {
         getSellerDoc().onSnapshot(doc => setSeller(doc.data() as NewSeller));

@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 
 import firebase from '../../commonLogical/firebase';
-import {AccountIdContext} from '../../commonLogical/contexts';
+import {currentAccountIdContext} from '../../commonLogical/contexts';
 import NewSellerDialogComponent from './NewSellerDialogComponent';
 import {SellerAdditionPromise, SellerValidationMethod} from './NewSellerDialogComponent';
 
@@ -22,9 +22,10 @@ interface Props {
 }
 
 const NewSellerDialogContainer: React.FC<Props> = ({isOpen, close}) => {
-    const accountId = useContext(AccountIdContext);
+    const {currentAccountId} = useContext(currentAccountIdContext);
+    
     const createSellerPromise: SellerAdditionPromise = seller => {
-        return firebase.firestore().collection('accounts').doc(accountId)
+        return firebase.firestore().collection('accounts').doc(currentAccountId)
             .collection('sellers').add(seller)
             .then(newSellerDoc => newSellerDoc.id ? true : false);
     }

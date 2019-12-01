@@ -39,7 +39,6 @@ export interface Account extends NewAccount {
     sellers: Seller[];
     id: string;
 }
-export type AccountWithoutSellers = Omit<Account, 'sellers'>;
 
 
 
