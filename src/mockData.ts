@@ -96,7 +96,6 @@ export const account1: Account = {
     owner: "michael@someMail.com",
     managers: [],
     members: ["Amit"],
-    sellers: [],
     id: 'mockAccount'
 }
 
@@ -105,6 +104,5 @@ export const account2: Account = {
     owner: "michael@someMail.com",
     managers: ['Michael'],
     members: [],
-    sellers: [],
     id: 'mockAccount2'
 }

@@ -2,13 +2,18 @@ import React from 'react';
 
 import {Container} from '@material-ui/core'
 
-import {Account} from '../../defs';
+import {Account, Seller} from '../../defs';
 import SellersGrid from '../SellerGrid/SellersGrid';
 import AddSellerButton from '../AddSellerButton/AddSellerButtonComponent';
 import AccountBasicData from './AccountBasicData';
 
 
-const AccountView: React.FC<Account> = ({sellers, ...accountData}) => {
+interface Props {
+    account: Account;
+    sellers: Seller[],
+}
+
+const AccountView: React.FC<Props> = ({sellers, account}) => {
     
 
     const sellersComponent = sellers.length !== 0 ? 
@@ -16,8 +21,8 @@ const AccountView: React.FC<Account> = ({sellers, ...accountData}) => {
         <NoSellersMessage />
 
     return <Container>
-        <AccountBasicData {...accountData} />
-        <AddSellerButton />
+        <AccountBasicData {...account} />
+        <AddSellerButton accountId={account.id}/>
         {sellersComponent}
     </Container>
 }

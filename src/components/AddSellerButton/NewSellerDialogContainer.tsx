@@ -1,7 +1,6 @@
-import React, { useContext } from 'react';
+import React from 'react';
 
 import firebase from '../../commonLogical/firebase';
-import {currentAccountIdContext} from '../../commonLogical/contexts';
 import NewSellerDialogComponent from './NewSellerDialogComponent';
 import {SellerAdditionPromise, SellerValidationMethod} from './NewSellerDialogComponent';
 
@@ -17,15 +16,15 @@ const validateLegalInputForSeller: SellerValidationMethod = seller => {
 }
 
 interface Props {
+    accountId: string;
     isOpen: boolean;
     close: () => void;
 }
 
-const NewSellerDialogContainer: React.FC<Props> = ({isOpen, close}) => {
-    const {currentAccountId} = useContext(currentAccountIdContext);
+const NewSellerDialogContainer: React.FC<Props> = ({isOpen, close, accountId}) => {
     
     const createSellerPromise: SellerAdditionPromise = seller => {
-        return firebase.firestore().collection('accounts').doc(currentAccountId)
+        return firebase.firestore().collection('accounts').doc(accountId)
             .collection('sellers').add(seller)
             .then(newSellerDoc => newSellerDoc.id ? true : false);
     }

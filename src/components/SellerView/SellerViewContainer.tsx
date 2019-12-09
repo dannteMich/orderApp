@@ -1,6 +1,5 @@
 import React, {useState, useContext} from 'react'
 
-import {currentAccountIdContext} from '../../commonLogical/contexts';
 import firebase from '../../commonLogical/firebase';
 import {NewSeller, Product, NewProduct, Measurement} from '../../defs';
 
@@ -13,15 +12,15 @@ const db = firebase.firestore();
 
 
 interface Props {
+    accountId: string;
     sellerId: string;
 }
 
-const SellerViewContainer: React.FC<Props> = ({sellerId}) => {
-    const {currentAccountId} = useContext(currentAccountIdContext);
+const SellerViewContainer: React.FC<Props> = ({accountId, sellerId}) => {
     const [seller, setSeller] = useState<NewSeller>();
     const [products, setProducts] = useState<Array<Product>>();
 
-    const getSellerDoc = () => db.collection('accounts').doc(currentAccountId)
+    const getSellerDoc = () => db.collection('accounts').doc(accountId)
         .collection('sellers').doc(sellerId);
 
     const addProductPromise = (product: NewProduct) => {
@@ -48,10 +47,6 @@ const SellerViewContainer: React.FC<Props> = ({sellerId}) => {
         if (!name || name === "") {
             throw Error("Name is not set to a legal value")
         }
-    }
-
-    if (!currentAccountId) {
-        return <LoadingBlob />
     }
 
     if (!seller) {

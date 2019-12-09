@@ -36,7 +36,6 @@ export interface NewAccount {
 export interface Account extends NewAccount {
     managers: string[];    
     members: string[];  
-    sellers: Seller[];
     id: string;
 }
 

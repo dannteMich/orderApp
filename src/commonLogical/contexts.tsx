@@ -2,18 +2,19 @@ import React, {useState} from 'react';
 import { mockUser } from '../mockData';
 import firebase from './firebase';
 
+import {Account} from '../defs';
+import LoadingBlob from '../commonComponents/LoadingBlob';
+
 type operatorType = '==' | 'array-contains';
 
 const db = firebase.firestore();
-const getAccountsIdByQuery = (field: string, operator: operatorType, value: any) => {
+const getAccountsByQuery = (field: string, operator: operatorType, value: any) => {
     return db.collection('accounts').where(field, operator, value)
-        .get().then(querySnapshot => querySnapshot.docs.map(doc => doc.id));
+        .get().then(querySnapshot => querySnapshot.docs.map(doc => ({
+            ...doc.data(),
+            id: doc.id
+        } as Account)));
 }
-
-export const currentAccountIdContext = React.createContext({
-    currentAccountId: "",
-    setCurrentAccountId: (s: string) => {}
-});
 
 export const userContext = React.createContext({
     userId: "",
@@ -21,21 +22,20 @@ export const userContext = React.createContext({
 });
 
 export const accountsContext = React.createContext({
-    accountIds: [] as string[],
-    setAccountIds: (a: string[]) => {},
+    accounts: [] as Account[],
+    setAccounts: (a: Account[]) => {},
 })
 
 
 const AppContextProvider: React.FC = ({children}) => {
     const [userId, setUserId] = useState(mockUser.email); // TODO: replace with empty string
-    const [accountIds, setAccountIds] = useState([] as string[]);
-    const [currentAccountId, setCurrentAccountId] = useState();
+    const [accounts, setAccounts] = useState<Account[]>();
     
-    if (userId && userId !== "" && !currentAccountId) {
+    if (userId && userId !== "" && !accounts) {
         Promise.all([
-            getAccountsIdByQuery('owner', '==', userId),
-            getAccountsIdByQuery('managers', 'array-contains', userId),
-            getAccountsIdByQuery('members', 'array-contains', userId),
+            getAccountsByQuery('owner', '==', userId),
+            getAccountsByQuery('managers', 'array-contains', userId),
+            getAccountsByQuery('members', 'array-contains', userId),
         ]).then(results => {
             const [ownersAccounts, managersAccounts, membersAccount] = results;
             const allAccountIds = ownersAccounts.concat(managersAccounts).concat(membersAccount);
@@ -44,16 +44,14 @@ const AppContextProvider: React.FC = ({children}) => {
                 throw Error("no corresponding accounts")
             }
 
-            setAccountIds(allAccountIds);
-            setCurrentAccountId(allAccountIds[0])
+            setAccounts(allAccountIds);
         })
+        return <LoadingBlob />
     }
 
     return <userContext.Provider value={{userId, setUserId}}>
-        <accountsContext.Provider value={{accountIds, setAccountIds}}>
-            <currentAccountIdContext.Provider value={{currentAccountId, setCurrentAccountId}}>
+        <accountsContext.Provider value={{accounts: accounts as Account[], setAccounts}}>
                 {children}
-            </currentAccountIdContext.Provider>
         </accountsContext.Provider>
     </userContext.Provider>
 }

@@ -7,6 +7,7 @@ import ApplicationBar from './commonComponents/ApplicationBar';
 import AccountView from './components/AccountView/AccountViewContainer';
 import SellerView from './components/SellerView/SellerViewContainer';
 import SignIn from './components/SpecialRoutes/SignIn';
+import RootRoute from './components/SpecialRoutes/RootRoute';
 
 const SINGIN_PATH = '/signin'
 
@@ -22,8 +23,12 @@ const App: React.FC = () => {
   return <div>
     <ApplicationBar caption="Account Management" />
     <Switch>
-      <Route path="/" exact render={() => <AccountView />} />
-      <Route path="/sellers/:id" render={({ match }) => <SellerView sellerId={match.params.id} />} />
+      <Route path="/" exact render={() => <RootRoute />} />
+      <Route path="/accounts/:accountId" exact render={({match}) => <AccountView accountId={match.params.accountId}/>} />
+      <Route 
+        path="/accounts/:accountId/sellers/:sellerId" 
+        render={({ match }) => <SellerView accountId={match.params.accountId} sellerId={match.params.id} />} 
+      />
       <Route path={SINGIN_PATH} render={() => <SignIn />} />
     </Switch>
   </div>

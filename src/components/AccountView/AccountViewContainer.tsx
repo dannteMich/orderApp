@@ -2,36 +2,36 @@ import React, {useState, useContext} from 'react';
 
 import {Seller, Product, Account} from '../../defs';
 import firebase from '../../commonLogical/firebase';
-import {currentAccountIdContext} from '../../commonLogical/contexts';
 import AccountViewComponent from './AccountViewComponent';
-import Loading from '../../commonComponents/LoadingBlob';
 import LoadingBlob from '../../commonComponents/LoadingBlob';
-
-type AccountWithoutSellers = Omit<Account, 'sellers'>;
 
 const db = firebase.firestore();
 const getAccountDoc = (accountId: string) => db.collection('accounts').doc(accountId);
 
-const AccountViewContainer: React.FC = () => {
-    const {currentAccountId} = useContext(currentAccountIdContext);
-    const [accountData, setAccountData] = useState<AccountWithoutSellers>();
+interface Props {
+    accountId: string;
+}
+
+const AccountViewContainer: React.FC<Props> = ({accountId}) => {
+    const [account, setAccountData] = useState<Account>();
     const [sellers, setSellers] = useState<Array<Seller>>();
 
-    if (!currentAccountId) {
+    if (!accountId) {
         return <LoadingBlob />
     }
-    else if (!accountData) {
-        getAccountDoc(currentAccountId).onSnapshot(doc => {
+    
+    if (!account) {
+        getAccountDoc(accountId).onSnapshot(doc => {
             const newAccountData =  {
                 ...doc.data(),
                 id: doc.id,
-            } as AccountWithoutSellers;
+            } as Account;
             setAccountData(newAccountData);
-        });
-        return  <Loading />
+        });    
+    }
     
-    } else if (!sellers) {
-        getAccountDoc(currentAccountId).collection('sellers').onSnapshot(collection => {
+    if (!sellers) {
+        getAccountDoc(accountId).collection('sellers').onSnapshot(collection => {
             const newSellers = [] as Seller[];
             collection.forEach(doc => {
                 newSellers.push({
@@ -42,14 +42,12 @@ const AccountViewContainer: React.FC = () => {
             })
             setSellers(newSellers)
         });
-        return <Loading />
-
+    } 
+    
+    if (!account || !sellers) {
+        return <LoadingBlob />
     } else {
-        const newAccount = {
-            ...accountData,
-            sellers,
-        }
-        return <AccountViewComponent {...newAccount} />
+        return <AccountViewComponent {...{account, sellers}} />
     }
     
 }

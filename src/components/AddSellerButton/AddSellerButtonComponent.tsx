@@ -4,7 +4,11 @@ import {Button} from '@material-ui/core'
 
 import NewSellerDialog from './NewSellerDialogContainer';
 
-const AddSellerButton:React.FC = () => {    
+interface Props {
+    accountId: string;
+}
+
+const AddSellerButton:React.FC<Props> = ({accountId}) => {    
     const [open, setOpen] = useState(false);
 
     return <div>
@@ -13,7 +17,8 @@ const AddSellerButton:React.FC = () => {
                 Add Seller
         </Button>
         
-        <NewSellerDialog 
+        <NewSellerDialog
+            accountId={accountId}
             isOpen={open}
             close={() => setOpen(false)}
         />
