@@ -6,7 +6,7 @@ const RootRoute: React.FC = () => {
     const history = useHistory();
     const {accounts} = useContext(accountsContext);
 
-    if (accounts.length == 0) {
+    if (accounts.length === 0) {
         alert("no accounts. something is wrong!!!")
     } else {
         history.replace(`/accounts/${accounts[0].id}`)

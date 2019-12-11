@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react';
+import React, {useState} from 'react';
 
 import {Seller, Product, Account} from '../../defs';
 import firebase from '../../commonLogical/firebase';

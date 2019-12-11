@@ -1,11 +1,10 @@
-import React, {useState, useContext} from 'react'
+import React, {useState} from 'react'
 
 import firebase from '../../commonLogical/firebase';
 import {NewSeller, Product, NewProduct, Measurement} from '../../defs';
 
 import SellerViewComponent from './SellerViewComponent';
 import LoadingComponent from '../../commonComponents/LoadingBlob';
-import LoadingBlob from '../../commonComponents/LoadingBlob';
 
 const db = firebase.firestore();
 
