@@ -3,6 +3,7 @@ export enum Measurement {
     GRAMS = "grams",
     KG =  "kg",
     PACKS = "packs",
+    BOTTLES = "bottles",
 } 
 
 export interface NewProduct {
