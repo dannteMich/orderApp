@@ -27,7 +27,7 @@ const App: React.FC = () => {
       <Route path="/accounts/:accountId" exact render={({match}) => <AccountView accountId={match.params.accountId}/>} />
       <Route 
         path="/accounts/:accountId/sellers/:sellerId" 
-        render={({ match }) => <SellerView accountId={match.params.accountId} sellerId={match.params.id} />} 
+        render={({ match }) => <SellerView accountId={match.params.accountId} sellerId={match.params.sellerId} />} 
       />
       <Route path={SINGIN_PATH} render={() => <SignIn />} />
     </Switch>

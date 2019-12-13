@@ -17,7 +17,7 @@ const AccountView: React.FC<Props> = ({sellers, account}) => {
     
 
     const sellersComponent = sellers.length !== 0 ? 
-        <SellersGrid sellers={sellers} /> :
+        <SellersGrid account={account} sellers={sellers}/> :
         <NoSellersMessage />
 
     return <Container>
