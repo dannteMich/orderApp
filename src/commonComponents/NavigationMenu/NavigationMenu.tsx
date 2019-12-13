@@ -8,7 +8,7 @@ import { ExpandLess, ExpandMore } from '@material-ui/icons';
 const useStyles = makeStyles({
     root: {
         width: '100%',
-        maxWidth: 360,
+        maxWidth: 300,
     },
 })
 
