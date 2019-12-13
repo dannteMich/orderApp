@@ -8,11 +8,16 @@ import { ExpandLess, ExpandMore } from '@material-ui/icons';
 const useStyles = makeStyles({
     root: {
         width: '100%',
-        maxWidth: 300,
+        maxWidth: 350,
+        minWidth: 180,
     },
 })
 
-const NavigationMenu: React.FC = () => {
+interface Props {
+    afterClick?: () => void; // should I make a context for the isDrawerOpen?
+}
+
+const NavigationMenu: React.FC<Props> = ({afterClick}) => {
     const {accounts} = useContext(accountsContext);
     const classes = useStyles();
     const [openArray, setOpenArray] = useState(accounts.map(() => false));
@@ -32,7 +37,7 @@ const NavigationMenu: React.FC = () => {
             {openArray[i] ? <ExpandLess /> : <ExpandMore />}
         </ListItem>)
         res.push(<Collapse in={openArray[i]} timeout="auto" key={2*i+1}>
-            <SingleAccountNavigationInner account={account} />
+            <SingleAccountNavigationInner {...{account, afterClick}}/>
         </Collapse>)
     })
     

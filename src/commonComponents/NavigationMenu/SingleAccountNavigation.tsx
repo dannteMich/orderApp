@@ -15,9 +15,10 @@ const useStyles = makeStyles({
 
 interface SingleAccountNavigationProps {
     account: Account;
+    afterClick?: () => void;
 }
 
-const SingleAccountNavigationInner: React.FC<SingleAccountNavigationProps> = ({account}) => {
+const SingleAccountNavigationInner: React.FC<SingleAccountNavigationProps> = ({account, afterClick}) => {
     const {userId} = useContext(userContext);
     const history = useHistory();
     const {owner, managers, members} = account;
@@ -30,7 +31,10 @@ const SingleAccountNavigationInner: React.FC<SingleAccountNavigationProps> = ({a
     const buttons = [];
 
     if (userIsManager || userIsManager){
-        const onOrdersClick = () => history.push(`/accounts/${account.id}/orders/`)
+        const onOrdersClick = () => {
+            history.push(`/accounts/${account.id}/orders/`); 
+            afterClick && afterClick()
+        }
         buttons.push(<ListItem button key={1} onClick={onOrdersClick} className={classes.nested}>
             <ListItemIcon>
                 <Toc />
@@ -42,7 +46,10 @@ const SingleAccountNavigationInner: React.FC<SingleAccountNavigationProps> = ({a
     }
 
     if (userIsManager || userIsMember) {
-        const onAccountClick = () => history.push(`/accounts/${account.id}/manage/}`)
+        const onAccountClick = () => {
+            history.push(`/accounts/${account.id}/`); 
+            afterClick && afterClick()
+        }
         buttons.push(<ListItem button key={2} onClick={onAccountClick} className={classes.nested}>
             <ListItemIcon>
                 <EditSharp />
