@@ -3,7 +3,7 @@ import {text} from '@storybook/addon-knobs';
 import {storiesOf} from '@storybook/react';
 
 import ApplicationBar from './ApplicationBar';
-import ContextAndBrowserWrapper from '../TestingComponents/ContextAndBrowserWrapper';
+import ContextAndBrowserWrapper from '../TestingUtils/ContextAndBrowserWrapper';
 
 
 

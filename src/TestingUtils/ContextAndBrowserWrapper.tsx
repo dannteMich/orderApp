@@ -3,7 +3,7 @@ import {text, object} from '@storybook/addon-knobs';
 import { BrowserRouter } from 'react-router-dom';
 
 import { userContext, accountsContext } from '../commonLogical/contexts';
-import { account1, account2 } from '../mockData';
+import { account1, account2 } from './mockData';
 import { Account } from '../defs';
 
 interface Props {

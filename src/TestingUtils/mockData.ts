@@ -1,4 +1,4 @@
-import {Measurement,Product, Seller, Account} from './defs';
+import {Measurement,Product, Seller, Account} from '../defs';
 
 export const mockUser = {
     email: "dannte@gmail.com"

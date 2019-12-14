@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { mockUser } from '../mockData';
+import { mockUser } from '../TestingUtils/mockData';
 import firebase from './firebase';
 
 import {Account} from '../defs';

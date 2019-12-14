@@ -6,7 +6,7 @@ import SellerViewComponent from './SellerViewComponent';
 import ProductsTable from './ProductsTable';
 import AddProductComponent from './AddProductComponent';
 
-import { seller1, mockProducts } from '../../mockData';
+import { seller1, mockProducts } from '../../TestingUtils/mockData';
 import {NewProduct} from '../../defs';
 
 

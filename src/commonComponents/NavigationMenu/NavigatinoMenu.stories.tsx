@@ -5,9 +5,9 @@ import {action} from '@storybook/addon-actions';
 
 import NavigationMenu from './NavigationMenu';
 import SingleAccountNavigation from './SingleAccountNavigation';
-import ContextAndBrowserWrapper from '../../TestingComponents/ContextAndBrowserWrapper'
+import ContextAndBrowserWrapper from '../../TestingUtils/ContextAndBrowserWrapper'
 
-import {account1} from '../../mockData';
+import {account1} from '../../TestingUtils/mockData';
 
 storiesOf('NavigationMenu', module)
     .add('Single account menu', () => <ContextAndBrowserWrapper>

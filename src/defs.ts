@@ -1,3 +1,5 @@
+
+// Products
 export enum Measurement {
     UNITS = "units",
     GRAMS = "grams",
@@ -17,6 +19,7 @@ export interface Product extends NewProduct {
 }
 
 
+// Seller
 export interface NewSeller {
     name: string;
     whatsapp?: string;
@@ -29,6 +32,8 @@ export interface Seller extends NewSeller {
     id: string;
 }
 
+
+// Account
 export interface NewAccount {
     name: string;
     owner: string;
@@ -41,9 +46,21 @@ export interface Account extends NewAccount {
 }
 
 
-
-export interface Order {
-    product: Product;
+// Orders
+export interface OrderItem {
+    productId: string;
+    sellerId: string;
     amount: number;
 }
-export type EditableOrder = Partial<Order>;
+
+export interface Order {
+    items: OrderItem[];
+}
+
+export interface SavedOrder extends Order {
+    name: string;
+}
+
+export interface PlacedOrder extends Order {
+    datePlaced: Date;
+}
