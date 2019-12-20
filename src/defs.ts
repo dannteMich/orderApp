@@ -15,7 +15,6 @@ export interface NewProduct {
 
 export interface Product extends NewProduct {
     id: string;
-    sellerId?: string; // TODO: later should be mandatory
 }
 
 
