@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
 import { List, ListItem, ListItemText, ListItemIcon } from '@material-ui/core';
-import {Theme, makeStyles, createStyles} from '@material-ui/core'; 
+import {makeStyles} from '@material-ui/core'; 
 import {EditSharp, Toc} from '@material-ui/icons'
 import {Account} from '../../defs';
 import {useHistory} from 'react-router-dom';
@@ -32,7 +32,7 @@ const SingleAccountNavigationInner: React.FC<SingleAccountNavigationProps> = ({a
 
     if (userIsManager || userIsManager){
         const onOrdersClick = () => {
-            history.push(`/accounts/${account.id}/orders/`); 
+            history.push(`/accounts/${account.id}/order`); 
             afterClick && afterClick()
         }
         buttons.push(<ListItem button key={1} onClick={onOrdersClick} className={classes.nested}>

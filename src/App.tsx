@@ -8,6 +8,7 @@ import AccountView from './components/AccountView/AccountViewContainer';
 import SellerView from './components/SellerView/SellerViewContainer';
 import SignIn from './components/SpecialRoutes/SignIn';
 import RootRoute from './components/SpecialRoutes/RootRoute';
+import OrderBuilderContainer from './components/Orders/OrderBuilderContainer';
 
 const SINGIN_PATH = '/signin'
 
@@ -29,6 +30,7 @@ const App: React.FC = () => {
         path="/accounts/:accountId/sellers/:sellerId" 
         render={({ match }) => <SellerView accountId={match.params.accountId} sellerId={match.params.sellerId} />} 
       />
+      <Route path="/accounts/:accountId/order" render={({match}) => <OrderBuilderContainer accountId={match.params.accountId}/>} />
       <Route path={SINGIN_PATH} render={() => <SignIn />} />
     </Switch>
   </div>

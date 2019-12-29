@@ -20,7 +20,7 @@ const AccountViewContainer: React.FC<Props> = ({accountId}) => {
         return <LoadingBlob />
     }
     
-    if (!account) {
+    if (!account) { // TODO: I should get this from the context
         getAccountDoc(accountId).onSnapshot(doc => {
             const newAccountData =  {
                 ...doc.data(),
