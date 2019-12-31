@@ -46,8 +46,10 @@ const AppContextProvider: React.FC = ({children}) => {
 
             setAccounts(allAccountIds);
         })
-        return <LoadingBlob />
+        return <LoadingBlob topMessage="loading accounts data" />
     }
+
+    
 
     return <userContext.Provider value={{userId, setUserId}}>
         <accountsContext.Provider value={{accounts: accounts as Account[], setAccounts}}>

@@ -1,6 +1,7 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 
 import {Seller, Product, Account} from '../../defs';
+import {accountsContext} from '../../commonLogical/contexts';
 import firebase from '../../commonLogical/firebase';
 import AccountViewComponent from './AccountViewComponent';
 import LoadingBlob from '../../commonComponents/LoadingBlob';
@@ -13,23 +14,14 @@ interface Props {
 }
 
 const AccountViewContainer: React.FC<Props> = ({accountId}) => {
-    const [account, setAccountData] = useState<Account>();
+    const {accounts} = useContext(accountsContext);
     const [sellers, setSellers] = useState<Array<Seller>>();
 
     if (!accountId) {
         return <LoadingBlob />
     }
     
-    if (!account) { // TODO: I should get this from the context
-        getAccountDoc(accountId).onSnapshot(doc => {
-            const newAccountData =  {
-                ...doc.data(),
-                id: doc.id,
-            } as Account;
-            setAccountData(newAccountData);
-        });    
-    }
-    
+    const account = accounts.find(account => account.id === accountId);
     if (!sellers) {
         getAccountDoc(accountId).collection('sellers').onSnapshot(collection => {
             const newSellers = [] as Seller[];
