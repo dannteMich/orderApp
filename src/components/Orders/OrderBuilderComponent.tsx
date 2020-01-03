@@ -1,16 +1,8 @@
 import React, {useState} from 'react';
-import _ from 'lodash';
-import {  makeStyles } from '@material-ui/core';
-
-
-import { Seller} from '../../defs';
+import {createSelector} from 'reselect';
+import { Seller, OrderItem} from '../../defs';
 import ProductSelect from './ProductSelect';
 import { ProductWithSellerData, getAllProductsFromSellers} from './logic';
-
-const useStyle = makeStyles({
-    root: {}
-})
-
 
 
 interface Props {
@@ -18,20 +10,26 @@ interface Props {
 }
 
 const OrderBuilder: React.FC<Props> = ({sellers}) => {
-    const [productsInOrder, setProductsInOrder] = useState(new Set<string>());
+    const [orders, setOrders] = useState<OrderItem[]>([]);
     
 
-    const addProductToOrder = (product: ProductWithSellerData) => setProductsInOrder(productsInOrder.add(product.id));
-    const removeProductFromOrder = (product: ProductWithSellerData) => {
-        if (!productsInOrder.delete(product.id)) {
-            throw Error(`could not remove product ${product.name} from order`);
-        }
-        setProductsInOrder(productsInOrder);
-    }
+    const addProductToOrder = (product: ProductWithSellerData) => {
+        const newOrders = orders.concat([{
+            productId: product.id,
+            sellerId: product.sellerId,
+            amount: 1,
+        }]);
+        setOrders(newOrders);
+    };
+    console.log('productsInOrder');
+    console.log(orders);
 
+    const itemsInOrders = new Set(orders.map(order => order.productId));
+    const productsToShow = getAllProductsFromSellers(sellers)
+        .filter(product => !itemsInOrders.has(product.id))
 
     return <ProductSelect 
-        products={getAllProductsFromSellers(sellers)} 
+        products={productsToShow} 
         onSelect={addProductToOrder}
     />
 }

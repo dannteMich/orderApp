@@ -25,8 +25,8 @@ interface Props {
 
 const ProductSelect: React.FC<Props> = ({products, onSelect}) => {
     const classes = useStyle();
-    const [visibleComboBox, setVisibleComboBox] = useState(true);
     const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [inputValue, setInputValue] = useState('');
     
     const handleSelect = (_: any, value: ProductWithSellerData) => {
         if (value) {
@@ -42,7 +42,7 @@ const ProductSelect: React.FC<Props> = ({products, onSelect}) => {
         <Typography variant="h5" className={classes.label}>
             Select a product to add
         </Typography>
-        {visibleComboBox && <Autocomplete
+        <Autocomplete
             clearOnEscape
             disableClearable
             size="small"
@@ -57,7 +57,7 @@ const ProductSelect: React.FC<Props> = ({products, onSelect}) => {
                     variant="outlined" 
                     fullWidth />
             )}
-        />}
+        />
         <Snackbar
             anchorOrigin={{
                 vertical: 'bottom',

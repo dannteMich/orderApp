@@ -1,5 +1,5 @@
 import React, {useState, useContext, ReactNode} from 'react';
-import {List, ListItem, ListItemText, makeStyles, ListItemIcon, Collapse} from '@material-ui/core';
+import {List, ListItem, ListItemText, makeStyles, Collapse} from '@material-ui/core';
 
 import {accountsContext} from '../../commonLogical/contexts';
 import SingleAccountNavigationInner, {} from './SingleAccountNavigation';

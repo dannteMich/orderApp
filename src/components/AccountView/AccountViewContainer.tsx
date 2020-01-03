@@ -1,6 +1,6 @@
 import React, {useState, useContext} from 'react';
 
-import {Seller, Product, Account} from '../../defs';
+import {Seller, Product} from '../../defs';
 import {accountsContext} from '../../commonLogical/contexts';
 import firebase from '../../commonLogical/firebase';
 import AccountViewComponent from './AccountViewComponent';
