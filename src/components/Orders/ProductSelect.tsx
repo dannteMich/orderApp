@@ -25,18 +25,16 @@ interface Props {
 
 const ProductSelect: React.FC<Props> = ({products, onSelect}) => {
     const classes = useStyle();
-    const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [inputValue, setInputValue] = useState('');
     
     const handleSelect = (_: any, value: ProductWithSellerData) => {
         if (value) {
-            setSnackbarOpen(true);
+            setTimeout(() => setInputValue(''), 1); // why is this needed?!?
             onSelect(value);
         }
-        
     }
-    
-    //!visibleComboBox && setVisibleComboBox(true); // TODO: this trick is horrible. find another way to update the options
+
+    const onInputChange = (_: any, newValue: string) => setInputValue(newValue);
     
     return <div className={classes.root}>
         <Typography variant="h5" className={classes.label}>
@@ -46,6 +44,8 @@ const ProductSelect: React.FC<Props> = ({products, onSelect}) => {
             clearOnEscape
             disableClearable
             size="small"
+            inputValue={inputValue}
+            onInputChange={onInputChange}
             className={classes.comboBox}
             options={products}
             onChange={handleSelect}
@@ -57,19 +57,6 @@ const ProductSelect: React.FC<Props> = ({products, onSelect}) => {
                     variant="outlined" 
                     fullWidth />
             )}
-        />
-        <Snackbar
-            anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-            }}
-            open={snackbarOpen}
-            autoHideDuration={1000}
-            onClose={() => setSnackbarOpen(false)}
-            ContentProps={{
-                'aria-describedby': 'message-id',
-            }}
-            message={<Typography variant='body1'>Adding Product</Typography>}
         />
     </div>;
 }
