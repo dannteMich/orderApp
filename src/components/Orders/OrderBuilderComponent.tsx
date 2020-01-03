@@ -4,6 +4,13 @@ import { Seller, OrderItem} from '../../defs';
 import ProductSelect from './ProductSelect';
 import { ProductWithSellerData, getAllProductsFromSellers} from './logic';
 
+const productsToShow = createSelector( // takes sellers and orders
+    (sellers: Seller[], orders: OrderItem[]) => getAllProductsFromSellers(sellers),
+    (sellers: Seller[], orders: OrderItem[]) => new Set(orders.map(order => order.productId)),
+    (productsAvailable: ProductWithSellerData[], productsInOrder: Set<string>) => {
+        return productsAvailable.filter(product => !productsInOrder.has(product.id))
+    }
+)
 
 interface Props {
     sellers: Seller[];
@@ -21,15 +28,9 @@ const OrderBuilder: React.FC<Props> = ({sellers}) => {
         }]);
         setOrders(newOrders);
     };
-    console.log('productsInOrder');
-    console.log(orders);
-
-    const itemsInOrders = new Set(orders.map(order => order.productId));
-    const productsToShow = getAllProductsFromSellers(sellers)
-        .filter(product => !itemsInOrders.has(product.id))
 
     return <ProductSelect 
-        products={productsToShow} 
+        products={productsToShow(sellers, orders)} 
         onSelect={addProductToOrder}
     />
 }
