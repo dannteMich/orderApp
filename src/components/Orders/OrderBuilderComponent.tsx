@@ -1,5 +1,8 @@
 import React, {useState} from 'react';
-import {createSelector} from 'reselect';
+import {createSelector, } from 'reselect';
+import {Container} from '@material-ui/core';
+import { makeStyles} from '@material-ui/core/styles';
+
 import { Seller, OrderItem} from '../../defs';
 import ProductSelect from './ProductSelect';
 import { ProductWithSellerData, getAllProductsFromSellers} from './logic';
@@ -12,13 +15,19 @@ const productsToShow = createSelector( // takes sellers and orders
     }
 )
 
+const useStyle = makeStyles({
+    root: {
+        marginTop: 20,
+    }
+})
+
 interface Props {
     sellers: Seller[];
 }
 
 const OrderBuilder: React.FC<Props> = ({sellers}) => {
+    const classes = useStyle();
     const [orders, setOrders] = useState<OrderItem[]>([]);
-    
 
     const addProductToOrder = (product: ProductWithSellerData) => {
         const newOrders = orders.concat([{
@@ -29,10 +38,12 @@ const OrderBuilder: React.FC<Props> = ({sellers}) => {
         setOrders(newOrders);
     };
 
-    return <ProductSelect 
-        products={productsToShow(sellers, orders)} 
-        onSelect={addProductToOrder}
-    />
+    return <Container className={classes.root}>
+        <ProductSelect
+            products={productsToShow(sellers, orders)}
+            onSelect={addProductToOrder}
+        />
+    </Container>
 }
 
 
