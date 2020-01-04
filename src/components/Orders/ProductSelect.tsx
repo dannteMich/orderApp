@@ -1,12 +1,14 @@
 import React, {useState} from 'react';
-import { Typography, TextField, Snackbar, makeStyles } from '@material-ui/core';
+import { Typography, TextField, makeStyles } from '@material-ui/core';
 import { Autocomplete } from '@material-ui/lab';
 
 import {ProductWithSellerData} from './logic';
 
 const useStyle = makeStyles({
     root: {
-        display: 'flex',
+        display: "flex",
+        flexWrap: "wrap",
+        justifyContent: "center",
     },
     label: {
         flexGrow: 0,
@@ -15,6 +17,7 @@ const useStyle = makeStyles({
     },
     comboBox: {
         flexGrow: 1,
+        minWidth: 250,
     }
 })
 
@@ -37,7 +40,7 @@ const ProductSelect: React.FC<Props> = ({products, onSelect}) => {
     const onInputChange = (_: any, newValue: string) => setInputValue(newValue);
     
     return <div className={classes.root}>
-        <Typography variant="h5" className={classes.label}>
+        <Typography variant="h6" className={classes.label}>
             Select a product to add
         </Typography>
         <Autocomplete

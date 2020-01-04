@@ -19,10 +19,16 @@ storiesOf('Orders', module)
             onSelect={action('product selected')}
         />
     })
+
     .add('Single Seller Order Table', () => {
         const items: OrderItem[] = [{
             sellerId: seller1.id,
             productId: seller1.products[0].id,
+            amount: 1
+        },
+        {
+            sellerId: seller1.id,
+            productId: seller1.products[1].id,
             amount: 1
         }]
         return <SingleSellerOrderTable 
@@ -31,5 +37,6 @@ storiesOf('Orders', module)
             removeProduct={action('remove product')}
         />
     })
+    
     .add('Base', () => <OrderBuilder sellers={object('sellers', [seller1, seller2])}/>);
     

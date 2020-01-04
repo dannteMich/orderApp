@@ -1,14 +1,24 @@
 import React from 'react';
+import _ from 'lodash';
+import {createSelector} from 'reselect';
+
 import { makeStyles } from '@material-ui/core/styles';
-import { Button, Table, TableHead, TableCell, TableBody, TableRow, Tooltip }
+import { Button, Table, TableHead, TableCell, TableBody, TableRow, Tooltip, Typography }
     from '@material-ui/core';
 import { HighlightOffOutlined } from '@material-ui/icons'
 
-import {OrderItem, Seller} from '../../defs';
+import {OrderItem, Seller, Product} from '../../defs';
 
-const productsFromSeller = (seller: Seller) => seller.products;
+const getProductsByIds = createSelector(
+    (seller: Seller) => seller.products,
+    (products: Product[]) => _.chain(products)
+        .groupBy(product => product.id).mapValues(val => val[0]).value()
+);
 
 const useStyles = makeStyles({
+    root: {
+        margin: '30px 0'
+    },
     tableHead: {
         fontWeight: "bold",
     }
@@ -17,19 +27,24 @@ const useStyles = makeStyles({
 interface Props {
     items: OrderItem[];
     seller: Seller,
-    removeProduct: (productId: string) => void;
+    removeProduct: (sellerId: string, productId: string) => void;
 }
 
 const OrderTable: React.FC<Props> = ({ items, seller, removeProduct}) => {
     const classes = useStyles();
-
+    const productsById = getProductsByIds(seller);
+    
     const rows = items.map((item, i) => <OrderItemRow 
         item={item} 
-        removeProduct={removeProduct} 
+        productName={productsById[item.productId].name}
+        removeProduct={() => removeProduct(item.sellerId, item.productId)} 
         key={i}
     />)
 
-    return <div>
+    return <div className={classes.root}>
+        <Typography variant="h6" gutterBottom>
+            Order from {seller.name}
+        </Typography>
         <Table>
             <TableHead >
                 <TableRow>
@@ -49,12 +64,13 @@ export default OrderTable;
 
 interface OrderItemProps {
     item: OrderItem;
+    productName: string;
     removeProduct: (productId: string) => void;
 }
 
-export const OrderItemRow: React.FC<OrderItemProps> = ({item, removeProduct}) => {
+export const OrderItemRow: React.FC<OrderItemProps> = ({item, productName, removeProduct}) => {
     return <TableRow>
-        <TableCell>{item.productId}</TableCell>
+        <TableCell>{productName}</TableCell>
         <TableCell>{item.amount}</TableCell>
         <TableCell>
             <Tooltip title="remove item from order">
