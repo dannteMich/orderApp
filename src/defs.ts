@@ -52,9 +52,7 @@ export interface OrderItem {
     amount: number;
 }
 
-export interface Order {
-    items: OrderItem[];
-}
+export type Order = OrderItem[];
 
 export interface SavedOrder extends Order {
     name: string;

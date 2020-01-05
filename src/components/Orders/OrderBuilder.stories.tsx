@@ -35,6 +35,7 @@ storiesOf('Orders', module)
             items={items} 
             seller={seller1} 
             removeProduct={action('remove product')}
+            updateProductAmount={action('update amount')}
         />
     })
     

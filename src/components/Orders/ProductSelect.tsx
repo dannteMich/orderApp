@@ -23,7 +23,7 @@ const useStyle = makeStyles({
 
 interface Props {
     products: ProductWithSellerData[];
-    onSelect: (product: ProductWithSellerData) => void;
+    onSelect: (sellerId: string, productId: string) => void;
 }
 
 const ProductSelect: React.FC<Props> = ({products, onSelect}) => {
@@ -33,7 +33,7 @@ const ProductSelect: React.FC<Props> = ({products, onSelect}) => {
     const handleSelect = (_: any, value: ProductWithSellerData) => {
         if (value) {
             setTimeout(() => setInputValue(''), 1); // why is this needed?!?
-            onSelect(value);
+            onSelect(value.sellerId, value.id);
         }
     }
 

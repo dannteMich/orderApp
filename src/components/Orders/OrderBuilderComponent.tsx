@@ -1,28 +1,18 @@
 import React, {useState} from 'react';
-import {createSelector, } from 'reselect';
 import _ from 'lodash';
 
-import {Container, Typography, Box} from '@material-ui/core';
+import {Container} from '@material-ui/core';
 import { makeStyles} from '@material-ui/core/styles';
 
 import { Seller, OrderItem} from '../../defs';
-import { ProductWithSellerData, getAllProductsFromSellers} from './logic';
+import {
+    getProductsSelection, getOrdersBySellerId,
+    addItemToOrder, removeItemFromOrder
+} from './logic';
 import ProductSelect from './ProductSelect';
-import SigleSellerOrderTable from './SingleSellerOrderTable';
+import SingleSellerOrderTable from './SingleSellerOrderTable';
+import NoOrdersNotification from './NoOrdersNotification';
 
-const productsToShow = createSelector( // takes sellers and orders
-    (sellers: Seller[], orders: OrderItem[]) => getAllProductsFromSellers(sellers),
-    (sellers: Seller[], orders: OrderItem[]) => new Set(orders.map(order => order.productId)),
-    
-    (productsAvailable: ProductWithSellerData[], productsInOrder: Set<string>) => {
-        return productsAvailable.filter(product => !productsInOrder.has(product.id))
-    }
-)
-
-const getOrdersBySellerId = createSelector(
-    (orders: OrderItem[]) => orders,
-    (orders: OrderItem[]) => _.groupBy(orders, order => order.sellerId),
-)
 
 const useStyle = makeStyles({
     root: {
@@ -34,57 +24,47 @@ interface Props {
     sellers: Seller[];
 }
 
+
 const OrderBuilder: React.FC<Props> = ({sellers}) => {
     const classes = useStyle();
-    const [orders, setOrders] = useState<OrderItem[]>([]);
+    const [order, setOrder] = useState<OrderItem[]>([]);
 
-    const addProductToOrder = (product: ProductWithSellerData) => {
-        const newOrders = orders.concat([{
-            productId: product.id,
-            sellerId: product.sellerId,
-            amount: 1,
-        }]);
-        setOrders(newOrders);
+    const addProductToOrder = (sellerId: string, productId: string) => {
+        setOrder(addItemToOrder(order, sellerId, productId, 1));
     };
     
     const removeProduct = (sellerId: string, productId: string) => {
-        const newOrders = orders
-            .filter(item => item.sellerId !== sellerId || item.productId !== productId);
-        setOrders(newOrders);
+        setOrder(removeItemFromOrder(order, sellerId, productId));
     };
-
-    const ordersBySellerId = getOrdersBySellerId(orders);
     
-    const tables = _.map(ordersBySellerId, (orders, sellerId) => <SigleSellerOrderTable 
+    const updateItemAmount = (sellerId: string, productId: string, newAmount: number) => {
+        return addItemToOrder(
+            removeItemFromOrder(order, sellerId, productId),
+            sellerId,
+            productId, 
+            newAmount
+        );
+    }
+
+    const ordersBySellerId = getOrdersBySellerId(order);
+    
+    const tables = _.map(ordersBySellerId, (orders, sellerId) => <SingleSellerOrderTable 
         items={orders}
         removeProduct={removeProduct}
+        updateProductAmount={updateItemAmount}
         seller={sellers.find(seller => seller.id === sellerId) as Seller}
         key={sellerId}
     />)
 
     return <Container className={classes.root}>
         <ProductSelect
-            products={productsToShow(sellers, orders)}
+            products={getProductsSelection(sellers, order)}
             onSelect={addProductToOrder}
         />
-        {orders.length > 0 ? tables : <NoOrdersNotification />}
+        {order.length > 0 ? tables : <NoOrdersNotification />}
     </Container>
 }
 
 
 export default OrderBuilder;
 
-const NoOrdersNotification: React.FC = () => {
-    return <Box display="flex" margin="40px">
-        <Box flexGrow="1"/>
-        <Box>
-            <Typography>
-                There are no items in this Order.
-            </Typography>
-            <Typography>
-                Please add products from the select menu.
-            </Typography>
-        </Box>
-        <Box flexGrow="1" />
-    </Box>    
-}

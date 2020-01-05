@@ -28,6 +28,7 @@ interface Props {
     items: OrderItem[];
     seller: Seller,
     removeProduct: (sellerId: string, productId: string) => void;
+    updateProductAmount: (sellerId: string, productId: string, newAmount: number) => void;
 }
 
 const OrderTable: React.FC<Props> = ({ items, seller, removeProduct}) => {
@@ -45,7 +46,7 @@ const OrderTable: React.FC<Props> = ({ items, seller, removeProduct}) => {
         <Typography variant="h6" gutterBottom>
             Order from {seller.name}
         </Typography>
-        <Table>
+        <Table size="small">
             <TableHead >
                 <TableRow>
                     <TableCell className={classes.tableHead}>Product Name</TableCell>
