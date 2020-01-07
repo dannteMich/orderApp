@@ -28,27 +28,30 @@ interface Props {
 
 const ProductSelect: React.FC<Props> = ({products, onSelect}) => {
     const classes = useStyle();
-    const [inputValue, setInputValue] = useState('');
+    const [visible, setVisible] = useState(true);
+
+    //const [inputValue, setInputValue] = useState('');
+    //const [value, setValue] = useState<ProductWithSellerData>();
     
+
     const handleSelect = (_: any, value: ProductWithSellerData) => {
         if (value) {
-            setTimeout(() => setInputValue(''), 1); // why is this needed?!?
             onSelect(value.sellerId, value.id);
+            setVisible(false);
+            setTimeout(() => setVisible(true), 1);
         }
     }
-
-    const onInputChange = (_: any, newValue: string) => setInputValue(newValue);
+    
     
     return <div className={classes.root}>
         <Typography variant="h6" className={classes.label}>
             Select a product to add
         </Typography>
-        <Autocomplete
+        {visible && <Autocomplete
             clearOnEscape
-            disableClearable
             size="small"
-            inputValue={inputValue}
-            onInputChange={onInputChange}
+            // inputValue={inputValue}
+            // onInputChange={onInputChange}
             className={classes.comboBox}
             options={products}
             onChange={handleSelect}
@@ -56,11 +59,11 @@ const ProductSelect: React.FC<Props> = ({products, onSelect}) => {
             groupBy={(product: ProductWithSellerData) => product.sellerName} // FIXME: bug with single comma?
             renderInput={params => (
                 <TextField {...params}
-                    placeholder="Product name" 
-                    variant="outlined" 
+                    placeholder="Product name"
+                    variant="outlined"
                     fullWidth />
             )}
-        />
+        />}
     </div>;
 }
 
