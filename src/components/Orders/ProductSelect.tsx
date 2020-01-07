@@ -27,18 +27,11 @@ interface Props {
 }
 
 const ProductSelect: React.FC<Props> = ({products, onSelect}) => {
-    const classes = useStyle();
-    const [visible, setVisible] = useState(true);
-
-    //const [inputValue, setInputValue] = useState('');
-    //const [value, setValue] = useState<ProductWithSellerData>();
-    
+    const classes = useStyle();    
 
     const handleSelect = (_: any, value: ProductWithSellerData) => {
         if (value) {
             onSelect(value.sellerId, value.id);
-            setVisible(false);
-            setTimeout(() => setVisible(true), 1);
         }
     }
     
@@ -47,11 +40,9 @@ const ProductSelect: React.FC<Props> = ({products, onSelect}) => {
         <Typography variant="h6" className={classes.label}>
             Select a product to add
         </Typography>
-        {visible && <Autocomplete
+        <Autocomplete
             clearOnEscape
             size="small"
-            // inputValue={inputValue}
-            // onInputChange={onInputChange}
             className={classes.comboBox}
             options={products}
             onChange={handleSelect}
@@ -63,7 +54,7 @@ const ProductSelect: React.FC<Props> = ({products, onSelect}) => {
                     variant="outlined"
                     fullWidth />
             )}
-        />}
+        />
     </div>;
 }
 
