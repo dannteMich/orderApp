@@ -8,6 +8,7 @@ import { Button, Table, TableHead, TableCell, TableBody, TableRow, Tooltip, Typo
 import { HighlightOffOutlined } from '@material-ui/icons'
 
 import {OrderItem, Seller, Product} from '../../defs';
+import CounterInput from '../../commonComponents/Inputs/NumberCounterInput';
 
 const getProductsByIds = createSelector(
     (seller: Seller) => seller.products,
@@ -31,7 +32,7 @@ interface Props {
     updateProductAmount: (sellerId: string, productId: string, newAmount: number) => void;
 }
 
-const OrderTable: React.FC<Props> = ({ items, seller, removeProduct}) => {
+const OrderTable: React.FC<Props> = ({ items, seller, removeProduct, updateProductAmount}) => {
     const classes = useStyles();
     const productsById = getProductsByIds(seller);
     
@@ -39,6 +40,7 @@ const OrderTable: React.FC<Props> = ({ items, seller, removeProduct}) => {
         item={item} 
         productName={productsById[item.productId].name}
         removeProduct={() => removeProduct(item.sellerId, item.productId)} 
+        updateProductAmount={newAmount => updateProductAmount(item.sellerId, item.productId, newAmount)}
         key={i}
     />)
 
@@ -66,16 +68,19 @@ export default OrderTable;
 interface OrderItemProps {
     item: OrderItem;
     productName: string;
-    removeProduct: (productId: string) => void;
+    removeProduct: () => void;
+    updateProductAmount: (newAmount: number) => void;
 }
 
-export const OrderItemRow: React.FC<OrderItemProps> = ({item, productName, removeProduct}) => {
+export const OrderItemRow: React.FC<OrderItemProps> = ({ item, productName, removeProduct, updateProductAmount}) => {
     return <TableRow>
         <TableCell>{productName}</TableCell>
-        <TableCell>{item.amount}</TableCell>
+        <TableCell>
+            <CounterInput value={item.amount} minimum={0} handleNewValue={updateProductAmount}/>
+        </TableCell>
         <TableCell>
             <Tooltip title="remove item from order">
-                <Button onClick={() => removeProduct(item.productId)} >
+                <Button onClick={removeProduct} >
                     <HighlightOffOutlined />
                 </Button>
             </Tooltip>
