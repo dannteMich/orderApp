@@ -26,14 +26,14 @@ const OrderBuilderContainer: React.FC<Props> = ({accountId}) => {
         ]).then(([sellerDoc, productsQuery]) => {
             const seller = {
                 id: sellerDoc.id,
-                products: [] as Product[],
+                products: {},
                 ...sellerDoc.data()
-            };
+            } as Seller;
             productsQuery.forEach(productDoc => {
-                seller.products.push({
+                seller.products[productDoc.id] = {
                     id: productDoc.id,
                     ...productDoc.data(),
-                } as Product)
+                } as Product;
             })
             return seller as Seller;
         })
@@ -49,8 +49,11 @@ const OrderBuilderContainer: React.FC<Props> = ({accountId}) => {
         return <LoadingBlob topMessage="Loading Sellers and Products..." />
     }
     
-    
-    return <OrderBuilderComponent sellers={sellers} />
+    const sellersMap = sellers.reduce((sum: {[sellerId: string]: Seller}, seller: Seller) => {
+        sum[seller.id] = seller;
+        return sum;
+    }, {})
+    return <OrderBuilderComponent sellersMap={sellersMap} />
 }
 
 export default OrderBuilderContainer;

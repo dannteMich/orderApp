@@ -8,8 +8,8 @@ import ProductSelect from './ProductSelect';
 import SingleSellerOrderTable from './SingleSellerOrderTable';
 import {getAllProductsFromSellers} from './logic';
 
-import {seller1, seller2} from '../../TestingUtils/mockData';
-import { OrderItem } from '../../defs';
+import {seller1, seller2, mockProducts} from '../../TestingUtils/mockData';
+import { SingleSellerOrder } from '../../defs';
 
 storiesOf('Orders', module)
     .add('Product Selector', () => {
@@ -21,23 +21,34 @@ storiesOf('Orders', module)
     })
 
     .add('Single Seller Order Table', () => {
-        const items: OrderItem[] = [{
-            sellerId: seller1.id,
-            productId: seller1.products[0].id,
-            amount: 1
-        },
-        {
-            sellerId: seller1.id,
-            productId: seller1.products[1].id,
-            amount: 1
-        }]
+        const sellerOrder: SingleSellerOrder = {
+            [mockProducts[0].id]: {
+                ...mockProducts[0],
+                sellerId: seller1.id,
+                amount: 3
+            },
+            [mockProducts[1].id]: {
+                ...mockProducts[1],
+                sellerId: seller1.id,
+                amount: 1,
+            }
+
+        }
         return <SingleSellerOrderTable 
-            items={items} 
+            sellerOrder={sellerOrder} 
             seller={seller1} 
             removeProduct={action('remove product')}
             updateProductAmount={action('update amount')}
         />
     })
     
-    .add('Base', () => <OrderBuilder sellers={object('sellers', [seller1, seller2])}/>);
+    .add('Base', () => {
+        const sellersMap = {
+            [seller1.id]: seller1,
+            [seller2.id]: seller2,
+        }
+        return <OrderBuilder 
+            sellersMap={object('sellers', sellersMap)}
+        />
+    });
     

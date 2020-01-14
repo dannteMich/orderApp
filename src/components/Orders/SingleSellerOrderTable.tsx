@@ -1,20 +1,14 @@
 import React from 'react';
 import _ from 'lodash';
-import {createSelector} from 'reselect';
 
 import { makeStyles } from '@material-ui/core/styles';
 import { Button, Table, TableHead, TableCell, TableBody, TableRow, Tooltip, Typography }
     from '@material-ui/core';
 import { HighlightOffOutlined } from '@material-ui/icons'
 
-import {OrderItem, Seller, Product} from '../../defs';
+import { SingleSellerOrder, SingleProductOrder, Seller} from '../../defs';
 import CounterInput from '../../commonComponents/Inputs/NumberCounterInput';
 
-const getProductsByIds = createSelector(
-    (seller: Seller) => seller.products,
-    (products: Product[]) => _.chain(products)
-        .groupBy(product => product.id).mapValues(val => val[0]).value()
-);
 
 const useStyles = makeStyles({
     root: {
@@ -26,22 +20,20 @@ const useStyles = makeStyles({
 })
 
 interface Props {
-    items: OrderItem[];
-    seller: Seller,
+    sellerOrder: SingleSellerOrder;
+    seller: Seller;
     removeProduct: (sellerId: string, productId: string) => void;
     updateProductAmount: (sellerId: string, productId: string, newAmount: number) => void;
 }
 
-const OrderTable: React.FC<Props> = ({ items, seller, removeProduct, updateProductAmount}) => {
+const OrderTable: React.FC<Props> = ({ sellerOrder, seller, removeProduct, updateProductAmount}) => {
     const classes = useStyles();
-    const productsById = getProductsByIds(seller);
     
-    const rows = items.map((item, i) => <OrderItemRow 
-        item={item} 
-        productName={productsById[item.productId].name}
-        removeProduct={() => removeProduct(item.sellerId, item.productId)} 
-        updateProductAmount={newAmount => updateProductAmount(item.sellerId, item.productId, newAmount)}
-        key={i}
+    const rows = _.map(sellerOrder, (productOrder, productId) => <OrderItemRow 
+        {...productOrder}
+        removeProduct={() => removeProduct(productOrder.sellerId, productId)} 
+        updateProductAmount={newAmount => updateProductAmount(productOrder.sellerId, productId, newAmount)}
+        key={productId}
     />)
 
     return <div className={classes.root}>
@@ -65,19 +57,17 @@ const OrderTable: React.FC<Props> = ({ items, seller, removeProduct, updateProdu
 
 export default OrderTable;
 
-interface OrderItemProps {
-    item: OrderItem;
-    productName: string;
+interface OrderItemProps extends SingleProductOrder {
     removeProduct: () => void;
     updateProductAmount: (newAmount: number) => void;
 }
 
-export const OrderItemRow: React.FC<OrderItemProps> = ({ item, productName, removeProduct, updateProductAmount}) => {
+export const OrderItemRow: React.FC<OrderItemProps> = ({ name, amount, removeProduct, updateProductAmount}) => {
     return <TableRow>
-        <TableCell>{productName}</TableCell>
+        <TableCell>{name}</TableCell>
         <TableCell>
             <CounterInput 
-                value={item.amount} 
+                value={amount} 
                 minimum={0} 
                 handleNewValue={updateProductAmount}
             />

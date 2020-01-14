@@ -1,6 +1,6 @@
 import React, {useState, useContext} from 'react';
 
-import {Seller, Product} from '../../defs';
+import {Seller} from '../../defs';
 import {accountsContext} from '../../commonLogical/contexts';
 import firebase from '../../commonLogical/firebase';
 import AccountViewComponent from './AccountViewComponent';
@@ -29,7 +29,7 @@ const AccountViewContainer: React.FC<Props> = ({accountId}) => {
                 newSellers.push({
                     ...doc.data(),
                     id: doc.id,
-                    products: [] as Product[],
+                    products: {},
                 } as Seller);
             })
             setSellers(newSellers)

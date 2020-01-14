@@ -1,4 +1,5 @@
 import React from 'react';
+import _ from 'lodash';
 
 import {Container, Typography, List, ListItem, ListItemText} from '@material-ui/core'
 
@@ -36,7 +37,7 @@ const SellerView: React.FC<Props> = ({ seller, validateProduct, handleAddProduct
         </List>
         <AddProductForm validateProduct={validateProduct} handleCreatePromise={handleAddProduct}/>
         
-        <ProductTable products={products} handleDeleteClick={handleDeleteProduct}/>
+        <ProductTable products={_.values(products)} handleDeleteClick={handleDeleteProduct}/>
     </Container>
 }
 

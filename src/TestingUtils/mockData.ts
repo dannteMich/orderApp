@@ -77,7 +77,10 @@ export const mockProducts2: Product[] = [
 
 export const seller1: Seller = {
     name: "Amit's Place",
-    products: mockProducts,
+    products: mockProducts.reduce((sum: {[productId: string]: Product}, product: Product) => {
+        sum[product.id] = product;
+        return sum;
+    }, {}),
     email: 'mail@mail.com',
     id: "seller1",
 }
@@ -85,7 +88,10 @@ export const seller1: Seller = {
 export const seller2: Seller = {
     name: "Michael's Place",
     id: "seller2",
-    products: mockProducts2,
+    products: mockProducts2.reduce((sum: { [productId: string]: Product }, product: Product) => {
+        sum[product.id] = product;
+        return sum;
+    }, {}),
 }
 
 

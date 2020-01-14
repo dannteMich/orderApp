@@ -14,10 +14,11 @@ interface Props {
     accountId: string;
     sellerId: string;
 }
+// FIXME: this page stays with the same sellers when going to another account
 
 const SellerViewContainer: React.FC<Props> = ({accountId, sellerId}) => {
     const [seller, setSeller] = useState<NewSeller>();
-    const [products, setProducts] = useState<Array<Product>>();
+    const [products, setProducts] = useState();
 
     const getSellerDoc = () => db.collection('accounts').doc(accountId)
         .collection('sellers').doc(sellerId);
@@ -54,12 +55,12 @@ const SellerViewContainer: React.FC<Props> = ({accountId, sellerId}) => {
     
     } else if (!products) {
         getSellerDoc().collection('products').onSnapshot(collection => {
-                const newProducts = [] as Product[];
+                const newProducts = {} as {[productId: string]: Product};
                 collection.forEach(doc => {
-                    newProducts.push({
+                    newProducts[doc.id] = {
                         ...doc.data(),
                         id: doc.id
-                    } as Product);
+                    } as Product;
                 })
                 setProducts(newProducts);
             })
