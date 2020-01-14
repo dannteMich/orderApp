@@ -48,8 +48,8 @@ const AddProductComponent: React.FC<Props> = ({validateProduct, handleCreateProm
     const measurementOptions = _.map(Measurement, (value, key) => {
         return <MenuItem key={key} value={value}>{value}</MenuItem>
     });
-    return <Box display="flex" justifyContent="center">
-        <Box p={1}>
+    return <Box display="flex" justifyContent="center" flexWrap="wrap">
+        <Box p={1} minWidth="150px">
             <TextField 
                 required 
                 label="Product Name" 
@@ -58,10 +58,10 @@ const AddProductComponent: React.FC<Props> = ({validateProduct, handleCreateProm
             />
         </Box>
         <Box p={1}>
-            <TextField 
+            <TextField
                 className={classes.measurementField}
-                required 
-                label="Measurement Unit" 
+                required
+                label="Measurement Unit"
                 value={measurement || ""}
                 select
                 onChange={e => setMeasurement(e.target.value as Measurement)}
@@ -70,13 +70,13 @@ const AddProductComponent: React.FC<Props> = ({validateProduct, handleCreateProm
             </TextField>
         </Box>
         <Box p={2}>
-            <Button 
-                variant="contained" color="primary" 
+            <Button
+                variant="contained" color="primary"
                 className={classes.addButton}
                 onClick={onCreateClick}
             >
                 Add
-            </Button>
+                </Button>
         </Box>
     </Box>
 }

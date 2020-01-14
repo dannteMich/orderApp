@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {Container} from '@material-ui/core'
+import { Container, Box} from '@material-ui/core'
 
 import {Account, Seller} from '../../defs';
 import SellersGrid from '../SellerGrid/SellersGrid';
@@ -22,13 +22,20 @@ const AccountView: React.FC<Props> = ({sellers, account}) => {
 
     return <Container>
         <AccountBasicData {...account} />
-        <AddSellerButton accountId={account.id}/>
+        <Box display="flex" margin="10px 0">
+            <Box flexGrow="1"/>
+            <AddSellerButton accountId={account.id} />
+            <Box flexGrow="1" />
+        </Box>
+        
         {sellersComponent}
     </Container>
 }
 
+// TODO: make add seller button a floating button in the future
+
 const NoSellersMessage: React.FC = () => {
-    return (<div>no sellers in this account1</div>)
+    return <div>no sellers in this account</div> // TODO: make this a bit more UMF
 }
 
 
