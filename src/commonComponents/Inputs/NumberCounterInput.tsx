@@ -1,4 +1,5 @@
 import React from 'react';
+import _ from 'lodash';
 import {Typography, makeStyles, IconButton, Box} from '@material-ui/core';
 import {RemoveCircle, AddCircle} from '@material-ui/icons'
 
@@ -15,7 +16,7 @@ const useStyles = makeStyles({
     }
 })
 
-interface Props {
+interface Props{
     handleNewValue: (n: number) => void;
     value?: number;
     minimum?: number;
@@ -26,20 +27,19 @@ interface Props {
 
 const NumberCounterInput: React.FC<Props> = ({
     handleNewValue, value = 0,
-    minimum, maximum, interval=1,
+    minimum=null, maximum=null, interval=1,
 }) => {
     const classes = useStyles();
-
     const handleIncrease = () => {
         const newValue = value + interval;
-        if (!maximum || newValue <= maximum) {
+        if (_.isNull(maximum) || newValue <= maximum) {
             handleNewValue(newValue);
         }
     }
 
     const handleDecrease = () => {
         const newValue = value - interval;
-        if (!minimum || newValue >= minimum) {
+        if (_.isNull(minimum) || newValue >= minimum) {
             handleNewValue(newValue);
         }
     }

@@ -76,7 +76,11 @@ export const OrderItemRow: React.FC<OrderItemProps> = ({ item, productName, remo
     return <TableRow>
         <TableCell>{productName}</TableCell>
         <TableCell>
-            <CounterInput value={item.amount} minimum={0} handleNewValue={updateProductAmount}/>
+            <CounterInput 
+                value={item.amount} 
+                minimum={0} 
+                handleNewValue={updateProductAmount}
+            />
         </TableCell>
         <TableCell>
             <Tooltip title="remove item from order">

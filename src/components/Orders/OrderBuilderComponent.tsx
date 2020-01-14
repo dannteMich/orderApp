@@ -38,12 +38,12 @@ const OrderBuilder: React.FC<Props> = ({sellers}) => {
     };
     
     const updateItemAmount = (sellerId: string, productId: string, newAmount: number) => {
-        return addItemToOrder(
+        setOrder(addItemToOrder(
             removeItemFromOrder(order, sellerId, productId),
             sellerId,
             productId, 
             newAmount
-        );
+        ));
     }
 
     const ordersBySellerId = getOrdersBySellerId(order);
