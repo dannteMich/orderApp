@@ -1,8 +1,7 @@
 
-import {Product, Seller, Order, SingleSellerOrder} from '../../defs';
+import {Product, Seller, Order} from '../../defs';
 import { createSelector, } from 'reselect';
 import _ from 'lodash';
-import { StoreMallDirectoryRounded } from '@material-ui/icons';
 
 export interface ProductWithSellerData extends Product {
     sellerId: string;
