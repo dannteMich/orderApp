@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { Seller, Product} from '../../defs';
+import { Seller, Product, DbOrder} from '../../defs';
 import firebase from '../../commonLogical/firebase';
 
 import LoadingBlob from '../../commonComponents/LoadingBlob';
@@ -39,6 +39,12 @@ const OrderBuilderContainer: React.FC<Props> = ({accountId}) => {
         })
     }
 
+    const saveCurrentOrderPromise = (order: DbOrder) => {
+        return accountDoc().collection('orders').doc('current').set({
+            order
+        });
+    }
+
     if (!sellers) {
         accountDoc().collection('sellers').get().then(sellersQuery => {
             const sellersRequests = [] as Promise<Seller>[];
@@ -53,7 +59,7 @@ const OrderBuilderContainer: React.FC<Props> = ({accountId}) => {
         sum[seller.id] = seller;
         return sum;
     }, {})
-    return <OrderBuilderComponent sellersMap={sellersMap} />
+    return <OrderBuilderComponent sellersMap={sellersMap} handleSaveOrder={saveCurrentOrderPromise} />
 }
 
 export default OrderBuilderContainer;

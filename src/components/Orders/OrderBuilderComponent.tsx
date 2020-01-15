@@ -1,14 +1,11 @@
 import React, {useState} from 'react';
 import _ from 'lodash';
 
-import {Container} from '@material-ui/core';
+import {Container, Button} from '@material-ui/core';
 import { makeStyles} from '@material-ui/core/styles';
 
-import { Seller, Order} from '../../defs';
-import {
-    getProductsSelection, //getOrdersBySellerId, // TODO: delete this
-    addItemToOrder, removeItemFromOrder
-} from './logic';
+import { Seller, Order, DbOrder} from '../../defs';
+import {getProductsSelection, addItemToOrder, removeItemFromOrder, reduceOrderToDbForm} from './logic';
 import ProductSelect from './ProductSelect';
 import SingleSellerOrderTable from './SingleSellerOrderTable';
 import NoOrdersNotification from './NoOrdersNotification';
@@ -24,23 +21,33 @@ interface Props {
     sellersMap: {
         [sellerId: string]: Seller;
     };
+    handleSaveOrder: (order: DbOrder) => Promise<void>;
 }
 
 
-const OrderBuilder: React.FC<Props> = ({ sellersMap}) => {
+const OrderBuilder: React.FC<Props> = ({ sellersMap, handleSaveOrder}) => {
     const classes = useStyle();
     const [order, setOrder] = useState<Order>({});
+    const [showSaveOrderButton, setShowSaveOrderButton] = useState(false);
 
     const addProductToOrder = (sellerId: string, productId: string) => {
         setOrder(addItemToOrder(order, sellerId, sellersMap[sellerId].products[productId], 1));
+        setShowSaveOrderButton(true);
     };
     
     const removeProduct = (sellerId: string, productId: string) => {
         setOrder(removeItemFromOrder(order, sellerId, productId));
+        setShowSaveOrderButton(true);
     };
     
     const updateItemAmount = (sellerId: string, productId: string, newAmount: number) => {
         setOrder(addItemToOrder(order, sellerId, sellersMap[sellerId].products[productId], newAmount));
+        setShowSaveOrderButton(true);
+    }
+
+    const handleClickSaveOrder = () => {
+        handleSaveOrder(reduceOrderToDbForm(order))
+            .then(() => setShowSaveOrderButton(false));
     }
     
     const tables = _.map(order, (sellerOrder, sellerId) => <SingleSellerOrderTable 
@@ -57,6 +64,12 @@ const OrderBuilder: React.FC<Props> = ({ sellersMap}) => {
             onSelect={addProductToOrder}
         />
         {_.isEmpty(order) ? <NoOrdersNotification /> : tables}
+        {showSaveOrderButton && 
+            <Button color="primary" variant="contained" onClick={handleClickSaveOrder}>
+                Save Current Order
+            </Button>
+        }
+        
     </Container>
 }
 

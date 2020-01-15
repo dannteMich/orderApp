@@ -49,6 +49,7 @@ storiesOf('Orders', module)
         }
         return <OrderBuilder 
             sellersMap={object('sellers', sellersMap)}
+            handleSaveOrder={() => Promise.resolve()}
         />
     });
     

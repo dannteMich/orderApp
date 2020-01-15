@@ -1,5 +1,5 @@
 
-import {Product, Seller, Order} from '../../defs';
+import { Product, Seller, SingleSellerOrder, Order, DbOrder, SingleProductOrder} from '../../defs';
 import { createSelector, } from 'reselect';
 import _ from 'lodash';
 
@@ -53,3 +53,17 @@ export const getProductsSelection = createSelector( // takes sellers and orders
         return productsAvailable.filter(product => !productsInOrder.has(product.id))
     }
 )
+
+export function reduceOrderToDbForm(order: Order) {
+    const res = [] as DbOrder;
+    _.forEach(order, (sellerOrder: SingleSellerOrder, sellerId: string) => {
+        _.forEach(sellerOrder, (productOrder: SingleProductOrder, productId: string) => {
+            res.push({
+                productId,
+                sellerId,
+                amount: productOrder.amount,
+            })
+        })
+    })
+    return res;
+}
