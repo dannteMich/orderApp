@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { storiesOf } from '@storybook/react';
-import {number} from '@storybook/addon-knobs'
+import {number, text} from '@storybook/addon-knobs'
 import NumberCounter from './NumberCounterInput';
 
 interface WrapperProps {
@@ -8,6 +8,7 @@ interface WrapperProps {
     minimum?: number;
     maximum?: number;
     interval?: number;
+    units?: string;
 }
 
 const CounterWrapper: React.FC<WrapperProps> = (props) => {
@@ -32,5 +33,6 @@ storiesOf('Inputs', module)
             minimum={number('minimum', 0)}
             maximum={number('maximum', 11)}
             interval={number('interval', 2)}
+            units={text('units', 'Packs')}
         />
     })

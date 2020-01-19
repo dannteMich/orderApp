@@ -40,7 +40,7 @@ export function removeItemFromOrder(order: Order, sellerId: string, productId: s
     const newOrder = Object.assign({}, order);
     delete newOrder[sellerId][productId]
     if (_.isEmpty(order[sellerId])) {
-        delete order[sellerId];
+        delete newOrder[sellerId];
     }
     return newOrder;
 }

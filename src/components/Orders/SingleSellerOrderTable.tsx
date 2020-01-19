@@ -62,7 +62,7 @@ interface OrderItemProps extends SingleProductOrder {
     updateProductAmount: (newAmount: number) => void;
 }
 
-export const OrderItemRow: React.FC<OrderItemProps> = ({ name, amount, removeProduct, updateProductAmount}) => {
+export const OrderItemRow: React.FC<OrderItemProps> = ({ name, amount, removeProduct, updateProductAmount, measurement}) => {
     return <TableRow>
         <TableCell>{name}</TableCell>
         <TableCell>
@@ -70,6 +70,7 @@ export const OrderItemRow: React.FC<OrderItemProps> = ({ name, amount, removePro
                 value={amount} 
                 minimum={0} 
                 handleNewValue={updateProductAmount}
+                units={measurement}
             />
         </TableCell>
         <TableCell>

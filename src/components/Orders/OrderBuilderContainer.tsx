@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { Seller, Product, DbOrder, Order} from '../../defs';
 import firebase from '../../commonLogical/firebase';
-import { reduceOrderToDbForm} from './logic';
+import { reduceOrderToDbForm, expandDbOrderToOrder} from './logic';
 import LoadingBlob from '../../commonComponents/LoadingBlob';
 import OrderBuilderComponent from './OrderBuilderComponent';
 
@@ -16,6 +16,7 @@ interface Props {
 
 const OrderBuilderContainer: React.FC<Props> = ({accountId}) => {
     const [sellers, setSellers] = useState<Seller[]>();
+    const [currentOrder, setCurrentOrder] = useState<DbOrder>();
 
     const accountDoc = () => db.collection('accounts').doc(accountId);
     const sellerDoc = (sellerId: string) => accountDoc().collection('sellers').doc(sellerId);
@@ -54,12 +55,29 @@ const OrderBuilderContainer: React.FC<Props> = ({accountId}) => {
 
         return <LoadingBlob topMessage="Loading Sellers and Products..." />
     }
+
+    if (!currentOrder) {
+        accountDoc().collection('orders').doc('current').get().then(doc => {
+            if (doc.exists) {
+                setCurrentOrder(doc.get('order') as DbOrder);
+            } else {
+                setCurrentOrder([]);
+            }
+
+        })
+
+        return <LoadingBlob topMessage="Checking and fetching current order..." />
+    }
     
     const sellersMap = sellers.reduce((sum: {[sellerId: string]: Seller}, seller: Seller) => {
         sum[seller.id] = seller;
         return sum;
     }, {})
-    return <OrderBuilderComponent sellersMap={sellersMap} onSaveOrder={saveCurrentOrderPromise} />
+    return <OrderBuilderComponent
+        sellersMap={sellersMap} 
+        onSaveOrder={saveCurrentOrderPromise} 
+        currentOrder={expandDbOrderToOrder(currentOrder, sellersMap)}    
+    />
 }
 
 export default OrderBuilderContainer;

@@ -22,11 +22,11 @@ interface Props{
     minimum?: number;
     maximum?: number;
     interval?: number;
-    
+    units?: string;
 }
 
 const NumberCounterInput: React.FC<Props> = ({
-    handleNewValue, value = 0,
+    handleNewValue, value = 0, units,
     minimum=null, maximum=null, interval=1,
 }) => {
     const classes = useStyles();
@@ -51,7 +51,7 @@ const NumberCounterInput: React.FC<Props> = ({
         <Box flexGrow={0} minWidth={40} display="flex" flexDirection="column">
             <Box flexGrow={1} />
             <Typography variant="h6" className={classes.label}>
-                {value}
+                {value}{units && ' ' + units}
             </Typography>
             <Box flexGrow={1} />
         </Box>
