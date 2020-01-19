@@ -35,5 +35,6 @@ const App: React.FC = () => {
     </Switch>
   </div>
 }
+// TODO: handle when you don't have an account
 
 export default App;
