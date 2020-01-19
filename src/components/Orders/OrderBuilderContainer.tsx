@@ -43,6 +43,7 @@ const OrderBuilderContainer: React.FC<Props> = ({accountId}) => {
     const saveCurrentOrderPromise = (order: Order) => {
         return accountDoc().collection('orders').doc('current').set({
             order: reduceOrderToDbForm(order),
+            lastSaved: firebase.firestore.FieldValue.serverTimestamp(),
         });
     }
 
