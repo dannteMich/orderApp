@@ -1,5 +1,10 @@
-import {Seller, Measurement, Order, DbOrder} from '../../defs';
-import { ProductWithSellerData, getAllProductsFromSellers, reduceOrderToDbForm} from './logic';
+import { Seller, Measurement, Order, DbOrder, sellersMapping} from '../../defs';
+import {
+    ProductWithSellerData, 
+    getAllProductsFromSellers, 
+    reduceOrderToDbForm, 
+    expandDbOrderToOrder
+} from './logic';
 
 describe('getAllProductsFromSellers', () => {
     test('Basic Usage', () => {
@@ -26,28 +31,54 @@ describe('getAllProductsFromSellers', () => {
     })
 })
 
-describe('reduceOrderToDbForm', () => {
-    test('basic usage', () => {
-        const order: Order = {
-            'seller_id': {
+describe('Order to dbOrder and back', () => {
+    const order: Order = {
+        'seller_id': {
+            'product_id': {
+                name: 'product',
+                id: 'product_id',
+                sellerId: 'seller_id',
+                amount: 5,
+                measurement: Measurement.GRAMS
+            }
+        }
+    }
+
+    const sellersMap: sellersMapping = {
+        'seller_id': {
+            id: 'seller_id',
+            name: 'seller_name',
+            products: {
                 'product_id': {
                     name: 'product',
                     id: 'product_id',
-                    sellerId: 'seller_id',
-                    amount: 5,
                     measurement: Measurement.GRAMS
                 }
             }
         }
-        const expectedOrder: DbOrder = [
-            {
-                productId: 'product_id',
-                sellerId: 'seller_id',
-                amount: 5,
-            }
-        ]
+    }
+
+    const dbOrder: DbOrder = [
+        {
+            productId: 'product_id',
+            sellerId: 'seller_id',
+            amount: 5,
+        }
+    ];
+
+    test('basic reduceOrderToDbForm', () => {
         const dbOrderFromOrder = reduceOrderToDbForm(order);
-        expect(dbOrderFromOrder).toMatchObject(expectedOrder);
-        expect(expectedOrder).toMatchObject(dbOrderFromOrder);
+
+        expect(dbOrderFromOrder).toMatchObject(dbOrder);
+        expect(dbOrder).toMatchObject(dbOrderFromOrder);
     })
-})
+    test('basic expandDbOrderToOrder', () => {
+        const orderFromDbOrder = expandDbOrderToOrder(dbOrder, sellersMap);
+
+        expect(orderFromDbOrder).toMatchObject(order);
+        expect(order).toMatchObject(orderFromDbOrder);
+    });
+
+
+});
+

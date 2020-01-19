@@ -1,5 +1,5 @@
 
-import { Product, Seller, SingleSellerOrder, Order, DbOrder, SingleProductOrder} from '../../defs';
+import { Product, Seller, SingleSellerOrder, Order, DbOrder, SingleProductOrder, sellersMapping} from '../../defs';
 import { createSelector, } from 'reselect';
 import _ from 'lodash';
 
@@ -65,5 +65,22 @@ export function reduceOrderToDbForm(order: Order) {
             })
         })
     })
+    return res;
+}
+
+export function expandDbOrderToOrder(dbOrder: DbOrder, sellerMapping: sellersMapping)
+{
+    const res: Order = {};
+    _.forEach(dbOrder, ({sellerId, productId, amount}) => {
+        if (!_.has(res, sellerId)) {
+            res[sellerId] = {};
+        }
+        res[sellerId][productId] = {
+            ...sellerMapping[sellerId].products[productId],
+            sellerId,
+            amount
+        }
+    })
+
     return res;
 }

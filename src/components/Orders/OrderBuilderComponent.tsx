@@ -4,8 +4,8 @@ import _ from 'lodash';
 import {Container, Button} from '@material-ui/core';
 import { makeStyles} from '@material-ui/core/styles';
 
-import { Seller, Order, DbOrder} from '../../defs';
-import {getProductsSelection, addItemToOrder, removeItemFromOrder, reduceOrderToDbForm} from './logic';
+import { Order, sellersMapping} from '../../defs';
+import {getProductsSelection, addItemToOrder, removeItemFromOrder} from './logic';
 import ProductSelect from './ProductSelect';
 import SingleSellerOrderTable from './SingleSellerOrderTable';
 import NoOrdersNotification from './NoOrdersNotification';
@@ -18,16 +18,15 @@ const useStyle = makeStyles({
 })
 
 interface Props {
-    sellersMap: {
-        [sellerId: string]: Seller;
-    };
-    handleSaveOrder: (order: DbOrder) => Promise<void>;
+    sellersMap: sellersMapping;
+    currentOrder?: Order;
+    onSaveOrder: (order: Order) => Promise<void>;
 }
 
 
-const OrderBuilder: React.FC<Props> = ({ sellersMap, handleSaveOrder}) => {
+const OrderBuilder: React.FC<Props> = ({ sellersMap, onSaveOrder, currentOrder={}}) => {
     const classes = useStyle();
-    const [order, setOrder] = useState<Order>({});
+    const [order, setOrder] = useState<Order>(currentOrder);
     const [showSaveOrderButton, setShowSaveOrderButton] = useState(false);
 
     const addProductToOrder = (sellerId: string, productId: string) => {
@@ -46,8 +45,7 @@ const OrderBuilder: React.FC<Props> = ({ sellersMap, handleSaveOrder}) => {
     }
 
     const handleClickSaveOrder = () => {
-        handleSaveOrder(reduceOrderToDbForm(order))
-            .then(() => setShowSaveOrderButton(false));
+        onSaveOrder(order).then(() => setShowSaveOrderButton(false));
     }
     
     const tables = _.map(order, (sellerOrder, sellerId) => <SingleSellerOrderTable 

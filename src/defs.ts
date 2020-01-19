@@ -33,6 +33,10 @@ export interface Seller extends NewSeller {
     id: string;
 }
 
+export interface sellersMapping {
+    [sellerId: string]: Seller;
+};
+
 
 // Account
 export interface NewAccount {
