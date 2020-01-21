@@ -1,8 +1,10 @@
 import React, { useContext, useState } from 'react';
-import { AppBar, Toolbar, Typography, makeStyles, Button, IconButton, SwipeableDrawer} from '@material-ui/core';
-import {Menu as MenuIcon} from '@material-ui/icons';
+import { AppBar, Toolbar, Typography, makeStyles, Button, IconButton, 
+    SwipeableDrawer, Popover, Card, CardContent, CardActions} from '@material-ui/core';
+import {Menu as MenuIcon, AccountCircle} from '@material-ui/icons';
 import { useHistory } from 'react-router';
 
+import firebase from '../commonLogical/firebase';
 import {userContext} from '../commonLogical/contexts';
 import NavigationMenu from './NavigationMenu/NavigationMenu';
 
@@ -24,7 +26,7 @@ const ApplicationBar: React.FC<Props> = ({caption}) => {
     const [navMenuOpen, setNavMenuOpen] = useState(false);
     const classes = useStyles();
     
-    const endNode = userId ? <UserDisplay displayName={userId}/> : <LoginButton />;
+    const endNode = userId && userId !== '' ? <UserDisplay displayName={userId}/> : <LoginButton />;
     const openDrawer = () => setNavMenuOpen(true);
     const closeDrawer = () => setNavMenuOpen(false); 
 
@@ -64,9 +66,46 @@ const LoginButton: React.FC = () => {
 
 interface UserDisplayProps {
     displayName: string
+    onSignOutClick?: () => Promise<void>;
 }
 const UserDisplay: React.FC<UserDisplayProps> = ({displayName}) => {
-    return <Typography >
-        {displayName}
-    </Typography>
+    const history = useHistory();
+    const { setUserId } = useContext(userContext);
+    const [open, setOpen] = useState(false);
+    const openMenu = () => setOpen(true);
+    const closeMenu = () => setOpen(false);
+    
+    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+
+    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+        !anchorEl && setAnchorEl(event.currentTarget);
+        openMenu()
+    };
+    
+    const handleLogout = () => firebase.auth().signOut().then(() => {
+        setUserId('');
+    })
+
+    return <div>
+        <IconButton color="inherit" onClick={handleClick}>
+            <AccountCircle />
+        </IconButton>
+        <Popover keepMounted 
+            open={open} 
+            onClose={closeMenu} 
+            anchorEl={anchorEl}
+            transformOrigin={{horizontal: 0, vertical: -40}}
+        >
+            <Card>
+                <CardContent>
+                    <Typography variant="body2">{displayName}</Typography>
+                </CardContent>
+                <CardActions>
+                    <Button onClick={handleLogout}>
+                        Logout
+                    </Button>
+                </CardActions>
+            </Card>
+        </Popover>
+    </div>
 }
