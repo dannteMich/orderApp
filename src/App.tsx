@@ -10,20 +10,20 @@ import SignIn from './components/SpecialRoutes/SignIn';
 import RootRoute from './components/SpecialRoutes/RootRoute';
 import OrderBuilderContainer from './components/Orders/OrderBuilderContainer';
 
-const SINGIN_PATH = '/signin'
+const SINGIN_PATH = '/'
 
 const App: React.FC = () => {
 
-  const userId  = useContext(userContext);
+  const userId = useContext(userContext);
 
   const [history, location] = [useHistory(), useLocation()]; // should replace with guard component?
-  if (!userId  && location.pathname !== SINGIN_PATH) {
+  if (userId === ''  && location.pathname !== SINGIN_PATH) {
     history.replace(SINGIN_PATH)
     return null;
   }
 
   return <div>
-    <ApplicationBar caption="Account Management" />
+    <ApplicationBar caption="Order Application" />
     <Switch>
       <Route path="/" exact render={() => <RootRoute />} />
       <Route path="/accounts/:accountId" exact render={({match}) => <AccountView accountId={match.params.accountId}/>} />
@@ -32,7 +32,6 @@ const App: React.FC = () => {
         render={({ match }) => <SellerView accountId={match.params.accountId} sellerId={match.params.sellerId} />} 
       />
       <Route path="/accounts/:accountId/order" render={({match}) => <OrderBuilderContainer accountId={match.params.accountId}/>} />
-      <Route path={SINGIN_PATH} render={() => <SignIn />} />
     </Switch>
   </div>
 }

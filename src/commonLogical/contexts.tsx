@@ -24,7 +24,7 @@ export const accountsContext = React.createContext({
 
 
 const AppContextProvider: React.FC = ({children}) => {
-    const [userId, setUserId] = useState('');
+    const [userId, setUserId] = useState(getCurrentUserId());
     const [accounts, setAccounts] = useState<Account[]>();
 
     firebase.auth().onAuthStateChanged(user => {

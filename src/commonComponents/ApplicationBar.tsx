@@ -26,30 +26,34 @@ const ApplicationBar: React.FC<Props> = ({caption}) => {
     const [navMenuOpen, setNavMenuOpen] = useState(false);
     const classes = useStyles();
     
-    const endNode = userId && userId !== '' ? <UserDisplay displayName={userId}/> : <LoginButton />;
+    const endNode = userId !== '' ? <UserDisplay displayName={userId}/> : <LoginButton />;
     const openDrawer = () => setNavMenuOpen(true);
     const closeDrawer = () => setNavMenuOpen(false); 
 
     return <div style={{display:'flex'}}>
         <AppBar position="static">
             <Toolbar variant="dense">
-                <IconButton edge="start" color="inherit" onClick={openDrawer}>
-                    <MenuIcon />
-                </IconButton>
+                {userId !== '' && 
+                    <IconButton edge="start" color="inherit" onClick={openDrawer}>
+                        <MenuIcon />
+                    </IconButton>
+                }
                 <Typography variant="h6" className={classes.title}>
                     {caption}
                 </Typography>
                 {endNode}
             </Toolbar>
         </AppBar>
-        <SwipeableDrawer 
-            anchor="left"
-            open={navMenuOpen}
-            onOpen={openDrawer}
-            onClose={closeDrawer}
-        >
-            <NavigationMenu afterClick={closeDrawer}/>
-        </SwipeableDrawer>
+        {userId !== '' && 
+            <SwipeableDrawer 
+                anchor="left"
+                open={navMenuOpen}
+                onOpen={openDrawer}
+                onClose={closeDrawer}
+            >
+                <NavigationMenu afterClick={closeDrawer}/>
+            </SwipeableDrawer>
+        }
     </div>;
 }
 

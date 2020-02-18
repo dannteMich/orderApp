@@ -12,13 +12,6 @@ const AUTH_NODE_ID = 'firebaseui-auth-container'
 
 
 const SignIn: React.FC = () => {
-    const history = useHistory();
-    const userId = useContext(userContext);
-    
-    if (userId !== '') {
-        history.replace('/');
-    }
-    
     const auth_config = {
         signInFlow: 'popup',
         signInOptions: [
@@ -34,24 +27,13 @@ const SignIn: React.FC = () => {
                 }
             },
         ],
-        callbacks: {
-            signInSuccessWithAuthResult: (authResult: firebase.auth.UserCredential, redirectUrl: string) => {
-                history.replace('/');
-                return false;
-            }
-        }
+        signInSuccessUrl: '.',
     };
     
     useEffect(() => { 
-        const ui = new firebaseui.auth.AuthUI(firebase.auth());
+        const ui = firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(firebase.auth());
         ui.start(`#${AUTH_NODE_ID}`, auth_config);
-
-        const cleanup = () => {
-            ui.delete()
-        }
-
-        return cleanup;
-    }, [auth_config, userId]);
+    });
     
     return <Container>
         <div id={AUTH_NODE_ID}></div>
