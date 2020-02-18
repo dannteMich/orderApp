@@ -1,11 +1,9 @@
-import React, {useEffect, useContext} from 'react';
+import React, {useEffect} from 'react';
 
 import {Container} from '@material-ui/core';
-import {useHistory} from 'react-router-dom';
 
 import firebase from '../../commonLogical/firebase';
 import * as firebaseui from 'firebaseui';
-import { userContext } from '../../commonLogical/contexts';
 
 
 const AUTH_NODE_ID = 'firebaseui-auth-container'

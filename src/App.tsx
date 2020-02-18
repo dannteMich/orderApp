@@ -6,7 +6,6 @@ import {userContext} from './commonLogical/contexts';
 import ApplicationBar from './commonComponents/ApplicationBar';
 import AccountView from './components/AccountView/AccountViewContainer';
 import SellerView from './components/SellerView/SellerViewContainer';
-import SignIn from './components/SpecialRoutes/SignIn';
 import RootRoute from './components/SpecialRoutes/RootRoute';
 import OrderBuilderContainer from './components/Orders/OrderBuilderContainer';
 

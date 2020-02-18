@@ -73,7 +73,6 @@ interface UserDisplayProps {
     onSignOutClick?: () => Promise<void>;
 }
 const UserDisplay: React.FC<UserDisplayProps> = ({displayName}) => {
-    const history = useHistory();
     const [open, setOpen] = useState(false);
     const openMenu = () => setOpen(true);
     const closeMenu = () => setOpen(false);
