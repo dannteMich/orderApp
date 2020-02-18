@@ -22,7 +22,7 @@ interface Props {
 }
 
 const ApplicationBar: React.FC<Props> = ({caption}) => {
-    const {userId} = useContext(userContext);
+    const userId = useContext(userContext);
     const [navMenuOpen, setNavMenuOpen] = useState(false);
     const classes = useStyles();
     
@@ -70,7 +70,6 @@ interface UserDisplayProps {
 }
 const UserDisplay: React.FC<UserDisplayProps> = ({displayName}) => {
     const history = useHistory();
-    const { setUserId } = useContext(userContext);
     const [open, setOpen] = useState(false);
     const openMenu = () => setOpen(true);
     const closeMenu = () => setOpen(false);
@@ -83,7 +82,7 @@ const UserDisplay: React.FC<UserDisplayProps> = ({displayName}) => {
     };
     
     const handleLogout = () => firebase.auth().signOut().then(() => {
-        setUserId('');
+        // TODO: should go here to signin or it happens automatically
     })
 
     return <div>

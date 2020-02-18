@@ -19,7 +19,7 @@ interface SingleAccountNavigationProps {
 }
 
 const SingleAccountNavigationInner: React.FC<SingleAccountNavigationProps> = ({account, afterClick}) => {
-    const {userId} = useContext(userContext);
+    const userId = useContext(userContext);
     const history = useHistory();
     const {owner, managers, members} = account;
     const classes = useStyles();

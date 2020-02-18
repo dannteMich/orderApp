@@ -14,7 +14,7 @@ const SINGIN_PATH = '/signin'
 
 const App: React.FC = () => {
 
-  const { userId } = useContext(userContext);
+  const userId  = useContext(userContext);
 
   const [history, location] = [useHistory(), useLocation()]; // should replace with guard component?
   if (!userId  && location.pathname !== SINGIN_PATH) {

@@ -16,10 +16,7 @@ const ContextAndBrowserWrapper: React.FC<Props> = ({
     accounts = [account1, account2],
     userId = 'michael@someMail.com',
 }) => {
-    const userContextValue = {
-        userId: text('current user id', userId),
-        setUserId: (s: string) => { },
-    }
+    const userContextValue = text('current user id', userId);
 
     const accountsContextValue = {
         accounts: object('accounts', accounts),

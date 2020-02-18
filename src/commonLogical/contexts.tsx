@@ -15,10 +15,7 @@ const getAccountsByQuery = (field: string, operator: operatorType, value: any) =
         } as Account)));
 }
 
-export const userContext = React.createContext({
-    userId: "",
-    setUserId: (s: string) => {},
-});
+export const userContext = React.createContext('');
 
 export const accountsContext = React.createContext({
     accounts: [] as Account[],
@@ -27,8 +24,16 @@ export const accountsContext = React.createContext({
 
 
 const AppContextProvider: React.FC = ({children}) => {
-    const [userId, setUserId] = useState(getCurrentUserId());
+    const [userId, setUserId] = useState('');
     const [accounts, setAccounts] = useState<Account[]>();
+
+    firebase.auth().onAuthStateChanged(user => {
+        if (user && user.email) {
+            setUserId(user.email)
+        } else {
+            setUserId('')
+        }
+    })
     
     if (userId !== "" && !accounts) {
         Promise.all([
@@ -50,7 +55,7 @@ const AppContextProvider: React.FC = ({children}) => {
 
     
 
-    return <userContext.Provider value={{userId, setUserId}}>
+    return <userContext.Provider value={userId}>
         <accountsContext.Provider value={{accounts: accounts as Account[], setAccounts}}>
                 {children}
         </accountsContext.Provider>

@@ -3,7 +3,7 @@ import {accountsContext} from '../../commonLogical/contexts';
 import { useHistory } from 'react-router';
 import {getAccountPath} from '../../RoutePaths';
 
-// TODO: delete this componenet and move logic to App.tsx?
+// TODO: delete this component and move logic to App.tsx?
 const RootRoute: React.FC = () => {
     const history = useHistory();
     const {accounts} = useContext(accountsContext);
