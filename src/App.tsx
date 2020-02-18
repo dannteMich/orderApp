@@ -19,6 +19,7 @@ const App: React.FC = () => {
   const [history, location] = [useHistory(), useLocation()]; // should replace with guard component?
   if (!userId  && location.pathname !== SINGIN_PATH) {
     history.replace(SINGIN_PATH)
+    return null;
   }
 
   return <div>

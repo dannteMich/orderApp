@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
-import { mockUser } from '../TestingUtils/mockData';
-import firebase from './firebase';
+import firebase, {getCurrentUserId} from './firebase';
 
 import {Account} from '../defs';
 import LoadingBlob from '../commonComponents/LoadingBlob';
@@ -28,10 +27,10 @@ export const accountsContext = React.createContext({
 
 
 const AppContextProvider: React.FC = ({children}) => {
-    const [userId, setUserId] = useState(mockUser.email); // TODO: replace with empty string
+    const [userId, setUserId] = useState(getCurrentUserId());
     const [accounts, setAccounts] = useState<Account[]>();
     
-    if (userId && userId !== "" && !accounts) {
+    if (userId !== "" && !accounts) {
         Promise.all([
             getAccountsByQuery('owner', '==', userId),
             getAccountsByQuery('managers', 'array-contains', userId),

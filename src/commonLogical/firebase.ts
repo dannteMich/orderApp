@@ -15,4 +15,16 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
+/**
+ * Get the current logged in user email
+ * or an empty string if no user is logged or it has no email
+ */
+export function getCurrentUserId() {
+    const currentUser = firebase.auth().currentUser;
+    if (currentUser && currentUser.email) {
+        return currentUser.email;
+    }
+    return '';
+}
+
 export default firebase;
