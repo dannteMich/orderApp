@@ -7,7 +7,7 @@ import ApplicationBar from './commonComponents/ApplicationBar';
 import AccountView from './components/AccountView/AccountViewContainer';
 import SellerView from './components/SellerView/SellerViewContainer';
 import RootRoute from './components/SpecialRoutes/RootRoute';
-import OrderBuilderContainer from './components/Orders/OrderBuilderContainer';
+import OrderBuilderContainer from './components/OrderBuilder/OrderBuilderContainer';
 
 const SINGIN_PATH = '/'
 

@@ -56,6 +56,7 @@ const OrderBuilder: React.FC<Props> = ({ sellersMap, onSaveOrder, currentOrder={
         key={sellerId}
     />)
 
+    // IMPR: add a progress by the "save current order" button for when it's saving.
     return <Container className={classes.root}>
         <ProductSelect
             products={getProductsSelection(_.values(sellersMap), order)}
