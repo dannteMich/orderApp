@@ -7,15 +7,25 @@ import { SingleSellerOrder, Seller } from '../../defs';
 
 const useStyle = makeStyles({
     root: {
-        marginTop: 20,
+        display: "flex",
+        flex: "0 0"
+    },
+    row: {
+        display: "flex",
+        flexDirection:"column",
+        flex:"0 0",
     },
     firstRowCell: {
         flex: "0 0",
         minWidth: 200,
-        margin: 4,
+        margin: "4px 0",
     },
     orderCell: {
         padding: "0 14px",
+    },
+    Button: {
+        flex: "1 1",
+        margin: "5px 0",
     }
 })
 
@@ -33,14 +43,17 @@ const SingleSellerSender: React.FC<Props> = ({seller, sellerOrder}) => {
     const [prefix, setPrefix] = useState(defaultGreeting);
     const [postfix, setPostfix] = useState("Thanks.");
 
-    const alertWithText = () => alert([prefix, singleSellerOrderAsText(sellerOrder), postfix].join('\n'))
+    const handleSendClick = () => {
+        const messageText = prefix + '\n\n' + singleSellerOrderAsText(sellerOrder) + '\n\n' + postfix;
+        window.open(`https://wa.me/${seller.whatsapp}?text=${encodeURIComponent(messageText)}`);
+    }
     
     const orderItems = singleSellerOrderToStringList(sellerOrder).map((text, i) => <Typography key={i}>
         {text}
     </Typography>)
     
-    return <Box display="flex">
-        <Box display="flex" flexDirection="column" flex="0 0">
+    return <div className={classes.root}>
+        <div className={classes.row} >
             <div className={classes.firstRowCell}>
                 <TextField multiline 
                     value={prefix}
@@ -58,13 +71,13 @@ const SingleSellerSender: React.FC<Props> = ({seller, sellerOrder}) => {
                     onChange={e => setPostfix(e.target.value)}
                 />
             </div>
-        </Box>
-        <Box flex="0 0">
-            <Button onClick={alertWithText}>
-                Send
+        </div>
+        <div className={classes.row}>
+            <Button onClick={handleSendClick} variant="contained" color="primary" className={classes.Button}>
+                Send by Whatsapp
             </Button>
-        </Box>
-    </Box>
+        </div>
+    </div>
 }
 
 export default SingleSellerSender;
