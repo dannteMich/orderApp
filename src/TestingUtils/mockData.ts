@@ -1,4 +1,4 @@
-import {Measurement,Product, Seller, Account} from '../defs';
+import { Measurement, Product, Seller, Account, SingleSellerOrder} from '../defs';
 
 export const mockUser = {
     email: "dannte@gmail.com"
@@ -92,6 +92,20 @@ export const seller2: Seller = {
         sum[product.id] = product;
         return sum;
     }, {}),
+}
+
+export const singleSeller1Order: SingleSellerOrder = {
+    [mockProducts[0].id]: {
+        ...mockProducts[0],
+        sellerId: seller1.id,
+        amount: 3
+    },
+    [mockProducts[1].id]: {
+        ...mockProducts[1],
+        sellerId: seller1.id,
+        amount: 1,
+    }
+
 }
 
 

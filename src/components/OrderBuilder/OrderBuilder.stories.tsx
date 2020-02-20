@@ -8,10 +8,9 @@ import ProductSelect from './ProductSelect';
 import SingleSellerOrderTable from './SingleSellerOrderTable';
 import {getAllProductsFromSellers} from './logic';
 
-import {seller1, seller2, mockProducts} from '../../TestingUtils/mockData';
-import { SingleSellerOrder } from '../../defs';
+import { seller1, seller2, singleSeller1Order} from '../../TestingUtils/mockData';
 
-storiesOf('Orders', module)
+storiesOf('Orders/OrderBuilder', module)
     .add('Product Selector', () => {
         const products = getAllProductsFromSellers([seller1, seller2]);
         return <ProductSelect 
@@ -21,21 +20,8 @@ storiesOf('Orders', module)
     })
 
     .add('Single Seller Order Table', () => {
-        const sellerOrder: SingleSellerOrder = {
-            [mockProducts[0].id]: {
-                ...mockProducts[0],
-                sellerId: seller1.id,
-                amount: 3
-            },
-            [mockProducts[1].id]: {
-                ...mockProducts[1],
-                sellerId: seller1.id,
-                amount: 1,
-            }
-
-        }
         return <SingleSellerOrderTable 
-            sellerOrder={sellerOrder} 
+            sellerOrder={singleSeller1Order} 
             seller={seller1} 
             removeProduct={action('remove product')}
             updateProductAmount={action('update amount')}
