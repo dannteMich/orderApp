@@ -1,5 +1,9 @@
 import React, {useState} from 'react';
-import { Box, TextField, Typography, Card, CardContent, CardActions, IconButton, Divider, ButtonGroup, Tooltip} from '@material-ui/core';
+import { 
+    Card, CardContent, CardActions, Divider, 
+    Box, TextField, Typography, 
+    IconButton, ButtonGroup, Tooltip
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { WhatsApp, MailOutline, FileCopyOutlined} from '@material-ui/icons';
 import copy from 'copy-to-clipboard';
@@ -11,7 +15,6 @@ const useStyle = makeStyles({
     orderCell: {
         margin: "4px 0",
         padding: "4px 14px",
-        //border: "1px solid grey",
         background: "lightgrey",
         borderRadius: "5px",
     },
