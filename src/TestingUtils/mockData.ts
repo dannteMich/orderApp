@@ -105,7 +105,19 @@ export const singleSeller1Order: SingleSellerOrder = {
         sellerId: seller1.id,
         amount: 1,
     }
+}
 
+export const singleSeller2Order: SingleSellerOrder = {
+    [mockProducts2[0].id]: {
+        ...mockProducts2[0],
+        sellerId: seller2.id,
+        amount: 10
+    },
+    [mockProducts2[1].id]: {
+        ...mockProducts2[1],
+        sellerId: seller2.id,
+        amount: 1,
+    }
 }
 
 
