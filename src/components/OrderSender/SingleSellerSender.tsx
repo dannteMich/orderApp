@@ -1,39 +1,22 @@
 import React, {useState} from 'react';
-import { Button, TextField, Typography} from '@material-ui/core';
+import { Box, TextField, Typography, Card, CardContent, CardActions, IconButton, Divider, ButtonGroup, Tooltip} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { WhatsApp, MailOutline, FileCopyOutlined} from '@material-ui/icons';
 import copy from 'copy-to-clipboard';
 
 import {singleSellerOrderToStringList, singleSellerOrderAsText} from './logic';
 import { SingleSellerOrder, Seller } from '../../defs';
 
 const useStyle = makeStyles({
-    root: {
-        display: "flex",
-        flex: "0 0"
-    },
-    row: {
-        display: "flex",
-        flexDirection:"column",
-        flex:"0 0",
-    },
-    firstRowCell: {
-        flex: "0 0",
-        minWidth: 200,
-        margin: "4px 0",
-    },
     orderCell: {
-        padding: "0 14px",
-    },
-    SendButton: {
-        flex: "1 1",
-        margin: "5px 0",
-        textAlign: "center",
+        margin: "4px 0",
+        padding: "4px 14px",
+        //border: "1px solid grey",
+        background: "lightgrey",
+        borderRadius: "5px",
     },
     CopyToClipboardButton: {
-        flex: "0 0",
-        margin: "5px 0",
-        textAlign: "center",
-        fontSize: "x-small",
+        marginLeft: "auto",
     }
 })
 
@@ -57,64 +40,63 @@ const SingleSellerSender: React.FC<Props> = ({seller, sellerOrder}) => {
     </Typography>)
 
     
-    return <div className={classes.root}>
-        <div className={classes.row} >
-            <div className={classes.firstRowCell}>
-                <TextField multiline 
-                    value={prefix}
-                    variant="outlined"
-                    onChange={e => setPrefix(e.target.value)}
-                />
-            </div>
-            <div className={[classes.orderCell, classes.firstRowCell].join(' ')}>
+    return <Card>
+        <CardContent>
+            <Typography align="center" style={{fontWeight: "bold"}}>
+                Send order to {seller.name}
+            </Typography>
+        </CardContent>
+        <Divider />
+        <CardContent>
+            <TextField multiline
+                value={prefix}
+                variant="outlined"
+                onChange={e => setPrefix(e.target.value)}
+                fullWidth
+            />
+            <div className={classes.orderCell}>
                 {orderItems}
             </div>
-            <div className={classes.firstRowCell}>
-                <TextField multiline
-                    value={postfix}
-                    variant="outlined"
-                    onChange={e => setPostfix(e.target.value)}
-                />
-            </div>
-        </div>
-        <div className={classes.row}>
-            {getSendButtons(seller, getMessageText())}
-        </div>
-    </div>
+            <TextField multiline
+                value={postfix}
+                variant="outlined"
+                onChange={e => setPostfix(e.target.value)}
+                fullWidth
+            />
+        </CardContent>
+        <CardActions>
+            <ButtonGroup color="primary" variant="text" size="small">
+                {getSendButtons(seller, getMessageText())}
+            </ButtonGroup>
+            <Box flex="1 1" />
+            <CopyToClipboardButton textToCopy={getMessageText()} />       
+        </CardActions>
+    </Card>
 }
 
 export default SingleSellerSender;
 
 const getSendButtons = (seller: Seller, messageText: string) => {
-    const messageUriEncoded = () => encodeURIComponent(messageText);
+    const messageUriEncoded = encodeURIComponent(messageText);
     const sendWithWhatsappHref = `https://wa.me/${seller.whatsapp}?text=${messageUriEncoded}`;
     const sendWithMailHref = `mailto:${seller.email}?subject=order`; // TODO: if this works then add body
 
-    const buttons = [<CopyToClipboardButton textToCopy={messageText}/>]
-
+    const buttons = []
     if (seller.whatsapp) {
-        buttons.splice(-1, 0, <SendButton href={sendWithWhatsappHref}>
-            Send by Whatsapp
-        </SendButton>)
+        buttons.push(<Tooltip title="send with whatsapp">
+            <IconButton href={sendWithWhatsappHref}>
+                <WhatsApp />
+            </IconButton>
+        </Tooltip>)
     }
     if (seller.email) { // TODO: not sure this button works on desktop. should check on mobile
-        buttons.splice(-1, 0, <SendButton href={sendWithMailHref}>
-            Send via Email
-        </SendButton>)
+        buttons.push(<Tooltip title="send with mail">
+            <IconButton href={sendWithMailHref}>
+                <MailOutline />
+            </IconButton>
+        </Tooltip>)
     }
-
     return buttons;
-}
-
-interface SendButtonProps {
-    href: string
-}
-
-const SendButton: React.FC<SendButtonProps> = ({href, children}) => {
-    const classes = useStyle();
-    return <Button href={href} variant="contained" color="primary" className={classes.SendButton} id="whatsapp" target="_blank">
-        {children}
-    </Button>
 }
 
 interface CopyToClipboardButtonProps {
@@ -122,13 +104,14 @@ interface CopyToClipboardButtonProps {
 }
 
 const CopyToClipboardButton: React.FC<CopyToClipboardButtonProps> = ({textToCopy}) => {
-    const classes = useStyle();
     const handleCopyToClipboard = () => {
         copy(textToCopy);
         alert("message copied to clipboard")
     }
 
-    return <Button color="secondary" variant="contained" id="copy" onClick={handleCopyToClipboard} className={classes.CopyToClipboardButton}>
-        Copy to clipboard
-    </Button>
+    return <Tooltip title="Copy to clipboard">
+        <IconButton onClick={handleCopyToClipboard} size="small">
+            <FileCopyOutlined />
+        </IconButton>
+    </Tooltip>
 }

@@ -88,6 +88,7 @@ export const seller1: Seller = {
 export const seller2: Seller = {
     name: "Michael's Place",
     id: "seller2",
+    whatsapp: "034536827332",
     products: mockProducts2.reduce((sum: { [productId: string]: Product }, product: Product) => {
         sum[product.id] = product;
         return sum;
@@ -118,6 +119,16 @@ export const singleSeller2Order: SingleSellerOrder = {
         sellerId: seller2.id,
         amount: 1,
     }
+}
+
+export const fullOrder = {
+    [seller1.id]: singleSeller1Order,
+    [seller2.id]: singleSeller2Order,
+}
+
+export const sellerMapping = {
+    [seller1.id]: seller1,
+    [seller2.id]: seller2,
 }
 
 
