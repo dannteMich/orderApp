@@ -17,9 +17,6 @@ const useStyle = makeStyles({
         padding: "4px 14px",
         background: "lightgrey",
         borderRadius: "5px",
-    },
-    CopyToClipboardButton: {
-        marginLeft: "auto",
     }
 })
 
@@ -86,14 +83,14 @@ const getSendButtons = (seller: Seller, messageText: string) => {
 
     const buttons = []
     if (seller.whatsapp) {
-        buttons.push(<Tooltip title="send with whatsapp">
+        buttons.push(<Tooltip title="send with whatsapp" key="whatsapp">
             <IconButton href={sendWithWhatsappHref}>
                 <WhatsApp />
             </IconButton>
         </Tooltip>)
     }
     if (seller.email) { // TODO: not sure this button works on desktop. should check on mobile
-        buttons.push(<Tooltip title="send with mail">
+        buttons.push(<Tooltip title="send with mail" key="email">
             <IconButton href={sendWithMailHref}>
                 <MailOutline />
             </IconButton>
